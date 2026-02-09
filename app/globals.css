@@ -1,0 +1,893 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #24416b;
+  font-family: "Cabin", sans-serif;
+  font-weight: 700;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.card-p {
+  letter-spacing: 0.3px;
+}
+
+.footer {
+  background: linear-gradient(to right, #020c5b 11%, #ff6600 100%);
+}
+
+.counter {
+  background: linear-gradient(to right, #020c5b 11%, #ff6600 100%);
+}
+
+.areyoulooking {
+  background: url(../public/Images/bg/Best-Packers-and-Movers-Services.webp);
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  height: 450px;
+  background-attachment: fixed;
+}
+
+.default-btn {
+  font-size: 16px;
+  padding: 20px 35px;
+  line-height: 1;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  z-index: 1;
+  text-transform: capitalize;
+  border: 1px solid #fa4612;
+  border-radius: 4px;
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+}
+.default-btn.active {
+  background-color: #fa4612;
+  border-color: #fa4612;
+  color: #ffffff;
+}
+.default-btn.active::before {
+  border-top: 20px solid transparent;
+  border-left: 20px solid #ffffff;
+  border-bottom: 20px solid transparent;
+  left: -0.2%;
+}
+.default-btn.active:hover {
+  color: #fa4612;
+}
+.default-btn.active:hover::after {
+  width: 0;
+}
+.default-btn.active::after {
+  width: 100%;
+}
+.default-btn.active:hover::before {
+  border-top: 20px solid transparent;
+  border-left: 20px solid #fa4612;
+  border-bottom: 20px solid transparent;
+  left: -0.2%;
+}
+.default-btn.active:hover {
+  background-color: transparent;
+  border-color: #fa4612;
+}
+.default-btn::before {
+  content: "";
+  position: absolute;
+  border-right: 0;
+  border-top: 20px solid transparent;
+  border-left: 20px solid #fa4612;
+  border-bottom: 20px solid transparent;
+  top: 9px;
+  left: -0.2%;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.default-btn::after {
+  position: absolute;
+  content: "";
+  background-color: #fa4612;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  z-index: -1;
+}
+
+.default-btn:hover {
+  color: #fff;
+  border-color: #fa4612;
+}
+
+.default-btn:hover::after {
+  width: 100%;
+}
+
+.default-btn:hover::before {
+  border-top: 20px solid transparent;
+  border-left: 20px solid #fff;
+  border-bottom: 20px solid transparent;
+}
+
+.form-bg {
+  background: url(/_next/static/media/Best-International-Packers-and-Movers-Services.2feda6a4.webp);
+  background-position: center;
+  background-size: 100% 100%;
+  background-attachment: fixed;
+  height: 100%;
+  padding: 80px 0;
+  overflow: hidden;
+}
+
+.banner {
+  background-image: url("/Images/bg/Best-international-packers-and-movers.webp");
+  background-size: cover;
+  background-position: 100% 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.choose-img {
+  background-image: url(../public/Images/bg/transport-services.webp);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 100%;
+}
+
+.about-area-two .about-img {
+  position: relative;
+  background-image: url(../public/Images/bg/Transport-and-logistics-services.webp);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+}
+
+@media only screen and (max-width: 767px) {
+}
+
+.main-nav {
+  animation: 500ms ease-in-out 0s normal none 1 running fadeInDown;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  width: 100% !important;
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.underline-animation {
+  position: relative;
+}
+.underline-animation::after {
+  position: absolute;
+  bottom: -7px;
+  left: 0;
+  content: "";
+  width: 5px;
+  height: 2px;
+  background-color: #ffffff;
+  -webkit-animation: moveLeftBounces 10s linear infinite;
+  animation: moveLeftBounces 10s linear infinite;
+}
+.underline-animation::before {
+  position: absolute;
+  bottom: -7px;
+  left: 0;
+  content: "";
+  width: 50px;
+  height: 2px;
+  background-color: #fa4612;
+}
+
+@keyframes moveLeftBounces {
+  0% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+
+  50% {
+    -webkit-transform: translateX(45px);
+    transform: translateX(45px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+
+.underline-animation.left::before {
+  left: 47%;
+}
+.underline-animation.left::after {
+  left: 47%;
+}
+
+.tracking-body {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}
+
+.default-btn.active.tracking-body::before {
+  left: -1%;
+}
+.default-btn.active.tracking-body:hover::before {
+  left: -0.2%;
+}
+
+.single-widget ul li::before {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 30px;
+  height: 1px;
+  background-color: #fa4612;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+.lines .line::after {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 10px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+  -webkit-animation: moveLeftBounces-one 20s linear infinite;
+  animation: moveLeftBounces-one 20s linear infinite;
+}
+@keyframes moveLeftBounces-one {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  50% {
+    -webkit-transform: translateY(1000px);
+    transform: translateY(1000px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+.lines .line:nth-child(3)::after {
+  -webkit-animation-delay: 2.5s;
+  animation-delay: 2.5s;
+}
+.lines .line:nth-child(1)::after {
+  -webkit-animation-delay: 2s;
+  animation-delay: 2s;
+}
+
+.custom-shadow {
+  box-shadow: 0 0 11px 0px rgb(0 0 0 / 12%);
+}
+
+.single-choose:hover .choose-head::before {
+  width: 100%;
+  right: auto;
+  left: 0;
+}
+.single-choose .choose-head::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 1px;
+  background-color: #fa4612;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.single-service.one:hover::before {
+  background-image: url(/Images/img/International-move-abroad.webp);
+  z-index: 1;
+}
+
+.single-service.two:hover::before {
+  background-image: url(/Images/img/International-freight-company.webp);
+  z-index: 1;
+}
+
+.single-service.three:hover::before {
+  background-image: url(/Images/img/International-freight-delivery.webp);
+  z-index: 1;
+}
+
+.single-service:before {
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+}
+.single-service .service-content-wrap {
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.service-content-wrap svg {
+  font-size: 50px;
+  line-height: 1;
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #fa4612;
+}
+
+.single-service:hover .service-content-wrap {
+  -webkit-transform: scale(0);
+  transform: scale(0);
+}
+.single-service:hover {
+  background-color: initial;
+}
+.single-service {
+  padding: 36px 0 30px;
+}
+.single-service {
+  background-color: #fff;
+  box-shadow: 0 0 20px 3px #0000000d;
+  margin-bottom: 30px;
+  padding: 30px;
+  position: relative;
+  text-align: center;
+  transition: all 0.5s;
+}
+.single-service .service-heading {
+  text-align: center;
+  padding: 20px;
+  background-color: #fa4612;
+  position: absolute;
+  bottom: 56px;
+  left: 0;
+  right: 0;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  bottom: -30px;
+  -webkit-transform: scale(0);
+  transform: scale(0);
+  margin-right: 15px;
+  margin-left: 15px;
+  z-index: 99;
+}
+
+.single-service .service-heading h3 {
+  color: white;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.single-service:hover .service-heading {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+
+.circle-read-more svg {
+  width: 40px;
+  height: 40px;
+  padding: 12px;
+  line-height: 40px;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  position: relative;
+  z-index: 1;
+}
+
+.service-all p a {
+  color: #fa4612;
+  border-bottom: 1px solid #fa4612;
+}
+
+.service-all p {
+  padding-bottom: 20px;
+}
+
+.about-section-three {
+  position: relative;
+  padding: 120px 0 70px;
+}
+
+.about-section-three .icon-plane-2 {
+  position: absolute;
+  top: 170px;
+  left: 80px;
+}
+
+.card-second {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-second:hover .card-footer-second {
+  margin: 0;
+  padding-left: 27px;
+  padding-right: 27px;
+}
+
+.card-second:hover {
+  -webkit-transform: translateY(-5px);
+  transform: translateY(-5px);
+  -webkit-box-shadow: 0 0 20px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 20px 3px rgba(0, 0, 0, 0.05);
+}
+
+.card-second img {
+  width: 97%;
+  height: 285px;
+  transition: all 1s;
+}
+
+.card-second:hover img {
+  -webkit-transform: scale(1.3);
+  transform: scale(1.3);
+  border-radius: 15px;
+}
+
+.card-second::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 285px;
+}
+
+.card-footer-second {
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 20px 3px #0000000d;
+  color: #000;
+  height: 300px;
+  margin: 0 5px;
+  padding: 20px;
+  position: relative;
+  top: -10px;
+  transition: all 0.5s;
+  z-index: 99;
+}
+
+.dropdown-menu::before {
+  position: absolute;
+  width: 0;
+  height: 0;
+  content: "";
+  border-top: 0;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #ffffff;
+  border-left: 8px solid transparent;
+  top: -8px;
+  left: 20px;
+}
+
+.bx-tada {
+  animation: tada 1.5s ease infinite;
+}
+
+@keyframes tada {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+  10%,
+  20% {
+    -webkit-transform: scale3d(0.95, 0.95, 0.95) rotate3d(0, 0, 1, -10deg);
+    transform: scale3d(0.95, 0.95, 0.95) rotate3d(0, 0, 1, -10deg);
+  }
+  30%,
+  50%,
+  70%,
+  90% {
+    -webkit-transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 10deg);
+    transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 10deg);
+  }
+  40%,
+  60%,
+  80% {
+    -webkit-transform: rotate3d(0, 0, 1, -10deg);
+    transform: rotate3d(0, 0, 1, -10deg);
+  }
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.single-team:before {
+  content: "";
+  position: absolute;
+  left: 170%;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  -webkit-transform: skewX(45deg);
+  transform: skewX(45deg);
+  transition: 0.8s;
+}
+
+.single-team:hover:before {
+  left: -170%;
+  -webkit-transition-delay: 0.8s;
+  transition-delay: 0.8s;
+}
+
+@layer utilities {
+  .perspective-300 {
+    perspective: 300px;
+  }
+  .rotate-x-90 {
+    transform: rotateX(90deg);
+  }
+  .rotate-x-0 {
+    transform: rotateX(0deg);
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+}
+
+.circle-read-more:hover i::after {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  background-color: #fa4612;
+}
+.circle-read-more i::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fa4612;
+  z-index: -1;
+  border-radius: 50%;
+  -webkit-transform: scale(0);
+  transform: scale(0);
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+}
+
+.polygon-custom {
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+}
+
+@media (max-width: 676px) {
+  .default-btn {
+    padding: 20px 20px;
+  }
+  .card-footer-second {
+    margin: 0 2px;
+    padding: 12px;
+    height: max-content;
+  }
+  .card-second img {
+    width: 100%;
+    height: 220px;
+  }
+  .form-bg {
+    margin-bottom: 0px;
+  }
+}
+
+.title::before {
+  position: absolute;
+  content: "";
+  bottom: -1px;
+  left: 0;
+  width: 70px;
+  height: 2px;
+  background-color: #fa4612;
+  border-radius: 5px;
+}
+.global-location-area .single-location::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: #fa4612;
+  border-radius: 4px;
+  transition: all 0.5s;
+  z-index: -1;
+}
+
+.global-location-area .single-location:hover::before {
+  width: 100%;
+}
+.single-widget ul li:hover::before {
+  width: 100%;
+}
+
+.widget-title::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background-color: #fa4612;
+}
+
+blockquote::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: #fa4612;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+@keyframes bounceVertical {
+  0%,
+  100% {
+    transform: translateY(0); /* Original position */
+  }
+  50% {
+    transform: translateY(-3px); /* Move up by 3px */
+  }
+}
+
+.animate-bounce-vertical {
+  animation: bounceVertical 1.5s infinite ease-in-out;
+}
+
+.custom-line:hover:before {
+  top: -23px;
+  opacity: 1;
+}
+.custom-line:before {
+  content: "";
+  position: absolute;
+  top: -55px;
+  left: 0;
+  width: 2%;
+  height: 65%;
+  background-color: #ffffff;
+  right: 0;
+  margin: auto;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  opacity: 0;
+}
+
+.home-contact
+  .react-international-phone-input-container
+  .react-international-phone-input {
+  overflow: visible;
+  height: 50px !important;
+  width: 100% !important;
+  box-sizing: border-box;
+  padding: 0 8px;
+  border: 1px solid var(--react-international-phone-border-color, gainsboro);
+  border-radius: 0 !important;
+  margin: 0;
+  background-color: var(--react-international-phone-background-color, white);
+
+  color: var(--react-international-phone-text-color, #222);
+  font-family: inherit;
+  font-size: var(--react-international-phone-font-size, 13px);
+}
+
+.home-contact
+  .react-international-phone-input-container
+  .react-international-phone-country-selector-button {
+  border-radius: 0 !important;
+  margin-right: -1px;
+  height: 50px !important;
+  padding: 0 10px !important;
+}
+.custom-contact-main
+  .react-international-phone-input-container
+  .react-international-phone-input {
+  overflow: visible;
+  width: 100% !important;
+  box-sizing: border-box;
+  border: 0px !important;
+  font-size: 16px !important;
+  height: 42px !important;
+  /* border-bottom: 2px solid #e6e6e6 !important; */
+  border-radius: 0 !important;
+  margin: 0 0 0 0 !important;
+  background-color: var(--react-international-phone-background-color, white);
+  color: rgb(106 106 142) !important;
+  font-family: inherit;
+}
+
+.custom-contact-main
+  .react-international-phone-input-container
+  .react-international-phone-country-selector-button {
+  border-radius: 0 !important;
+  border: 0px !important;
+  /* border-bottom: 2px solid #e6e6e6 !important; */
+  margin-right: -1px;
+  padding: 0 10px !important;
+}
+
+.custom-contact-main .react-international-phone-input-container {
+  height: 44px !important;
+  border-bottom: 2px solid #e6e6e6;
+  transition: border-color 0.3s ease; /* Optional for a smooth transition */
+}
+
+.custom-contact-main .react-international-phone-input-container:focus-within {
+  border-bottom: 2px solid #ff1f8e; /* Change to your desired focus color */
+}
+
+.banner-transparent {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background: rgba(39, 43, 61, 0.3);
+}
+
+.banner-transparent:before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0%;
+  width: 50%;
+  height: 100%;
+  background: rgba(39, 43, 61, 0.9);
+}
+
+.moverspackers-blog figure time:after {
+  content: "";
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  border-bottom: 7px solid;
+  border-left: 7px solid transparent;
+  border-bottom-color: #ffb118;
+}
+
+.moverspackers-blog-option:before {
+  content: "";
+  position: absolute;
+  right: -10px;
+  top: 0px;
+  border-top: 50px solid;
+  border-right: 10px solid transparent;
+}
+
+.service-item {
+  position: relative;
+  padding: 20px;
+  background: white;
+  border-radius: 50px 50px 50px 10px;
+  transition: all 0.5s ease-in-out;
+}
+
+
+.card-num {
+  position: absolute;
+  top: 0px;
+  right: 30px;
+  font-weight: 800;
+  font-size: 70px;
+  color: transparent;
+  -webkit-text-stroke: 1px #fa4612;
+  opacity: 0.2;
+}
+.service-icon {
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  text-align: center;
+  border-radius: 50px 50px 50px 10px;
+  background: #fa4612;
+  margin-bottom: 30px;
+  box-shadow: 10px 10px 0 rgba(255, 94, 20, 0.1);
+  transition: all 0.5s ease-in-out;
+}
+
+.service-icon img {
+  width: 50px;
+  filter: brightness(0) invert(1);
+}
+.service-item {
+  position: relative;
+  padding: 20px;
+  background: white;
+  border-radius: 50px 50px 50px 10px;
+  transition: all 0.5s ease-in-out;
+}
+
+.about-img img {
+  border-radius: 100px;
+}
+.about-img .img-2 {
+  margin-left: -44px;
+  margin-top: 110px;
+  border: 10px solid white;
+}
+.about-img .img-3 {
+  margin-top: -20px;
+  margin-left: -95px;
+  border: 10px solid white;
+}
+.about-experience {
+  background: #fa4612;
+  position: absolute;
+  right: 50px;
+  bottom: 20px;
+  padding: 14px 25px;
+  border-radius: 100px;
+  text-align: center;
+  border: 10px solid white;
+}
+.about-left {
+  position: relative;
+}
+.about-experience h5 {
+  color: white;
+  font-size: 40px;
+}
+.about-experience p {
+  color: white;
+  font-weight: 600;
+}
+.about-item {
+  display: flex;
+  gap: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  padding: 15px;
+}
