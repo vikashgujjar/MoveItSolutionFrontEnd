@@ -10,15 +10,19 @@ import ServiceOffer from "@/app/Components/ServiceOffer";
 import HowItWork from "../Components/HowItWork";
 import WhyExpress from "../Components/WhyExpress";
 import LocationBanner from "../Components/LocationBanner";
+import FloatingContactButtons from "../Components/FloatingContactButtons";
 
 export const metadata = {
   title: "Best Packers and Movers in Bangalore | Safe & Affordable",
   description: "Looking for the best packers and movers in Bangalore? Get safe, affordable home and office relocation with expert packing and on-time delivery. Book today! Now!",
 };
 
+// const BANGALORE_PHONE = "+91 63615 17700";
+const BANGALORE_PHONE = "+91 7056997000";
 const page = () => {
   return (
     <>
+      <FloatingContactButtons phone={BANGALORE_PHONE} />
 
       <Script id="schema-moving-company" type="application/ld+json">
         {`
@@ -110,7 +114,7 @@ const page = () => {
                 </div> */}
       </div>
       <div>
-        <LocationBanner />
+        <LocationBanner notifyEmail="vinikumar609@gmail.com" />
       </div>
 
       <div className="px-0 md:px-10 lg:px-28 my-5 md:my-14 ">
@@ -303,7 +307,7 @@ const page = () => {
 
           <div className="lg:col-span-4">
             <aside className="sidebar-area sticky top-20">
-              <LeftService active="1" />
+              <LeftService active="1" phone={BANGALORE_PHONE} address="Dwarka, Sector 26, New Delhi – 110077" />
 
               <div className="bg-white p-5 mt-5">
                 <h2 className="text-xl md:text-2xl   font-semimedium">

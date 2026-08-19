@@ -1,3 +1,4 @@
+"use client";
 import {
   FaFacebookF,
   FaInstagram,
@@ -9,8 +10,18 @@ import {
 } from "react-icons/fa";
 import { FiPhoneCall } from "react-icons/fi";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const PAGE_PHONES = {
+  "/packers-and-movers-in-bangalore": { display: "+91 97400 73943", tel: "+919740073943" },
+};
+
+const DEFAULT_PHONE = { display: "+91-7056997000", tel: "+91-7056997000" };
 
 const Topbar = () => {
+  const pathname = usePathname().replace(/\/$/, "");
+  const phone = PAGE_PHONES[pathname] || DEFAULT_PHONE;
+
   return (
     <>
       <div className="topbar bg-[#2f0202] text-white text-[14px] py-1 border-b-2 border-b-[#d15604]">
@@ -19,9 +30,9 @@ const Topbar = () => {
             <div className="flex space-x-4 items-center mb-2 md:mb-0">
               <ul className="flex items-end sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
                 <li className="flex items-center border-r border-white pr-3 mr-3 lg:mr-0">
-                  <Link href="tel:+91-7056997000" className="flex items-center">
+                  <Link href={`tel:${phone.tel}`} className="flex items-center">
                     <FiPhoneCall className="mr-2 text-[#fa4612]" />
-                    <span className="hover:text-[#fa4612]">+91-7056997000</span>
+                    <span className="hover:text-[#fa4612]">{phone.display}</span>
                   </Link>
                 </li>
                 <li className="flex items-center">

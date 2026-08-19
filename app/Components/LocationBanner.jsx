@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import dynamic from "next/dynamic";
 const FormQuerry = dynamic(() => import("../Components/Form"), { ssr: false });
 
-const LocationBanner = () => {
+const LocationBanner = ({ notifyEmail }) => {
     const sliderSettings = {
         dots: false,
         infinite: true,
@@ -147,7 +147,7 @@ const LocationBanner = () => {
                     </div>
                 </div>
                 <div>
-                    <FormQuerry showOnlyLocal={true} />
+                    <FormQuerry showOnlyLocal={true} notifyEmail={notifyEmail} />
                 </div>
             </div>
             <div className="absolute bottom-0 left-0 right-0 h-40 bg-white z-0 hidden lg:block translate-y-1/2 rounded-t-[50%] opacity-10"></div>

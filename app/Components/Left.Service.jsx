@@ -3,7 +3,9 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { FaCheck } from "react-icons/fa";
 
-const LeftService = () => {
+const LeftService = ({ phone: phoneProp, address: addressProp }) => {
+  const phone = phoneProp || "+91-7056997000";
+  const address = addressProp || "Dwarka, Sector 26, New Delhi – 110077";
   const items = [
     {
       id: 1,
@@ -249,10 +251,10 @@ const LeftService = () => {
             className={`border-b group   border-dashed w-full border-gray-200 px-5 py-3 font-medium transition duration-500  hover:bg-[#fa4612] hover:text-white`}
           >
             <Link
-              href="tel:+91-7056997000"
+              href={`tel:${phone}`}
               className="w-full flex items-center justify-between text-sm"
             >
-              +91-7056997000
+              {phone}
               <span>
                 <i className="bx bx-phone-call bx-rotate-270 border rounded-full p-2 bg-[#fa4612] text-white text-xl group-hover:text-[#fa4612] group-hover:bg-white   " />
               </span>
@@ -278,7 +280,7 @@ const LeftService = () => {
               href=""
               className="w-full flex items-center justify-between text-sm"
             >
-              Dwarka, Sector 26, New Delhi – 110077
+              {address}
               <span>
                 <i className="bx bx-location-plus border rounded-full p-2 bg-[#fa4612] text-white text-xl group-hover:text-[#fa4612] group-hover:bg-white" />
               </span>

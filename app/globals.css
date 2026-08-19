@@ -710,27 +710,40 @@ blockquote::after {
   .react-international-phone-input-container
   .react-international-phone-input {
   overflow: visible;
-  height: 50px !important;
+  height: 38px !important;
   width: 100% !important;
   box-sizing: border-box;
   padding: 0 8px;
-  border: 1px solid var(--react-international-phone-border-color, gainsboro);
-  border-radius: 0 !important;
+  border: 2px solid #e8edf5 !important;
+  border-left: none !important;
+  border-radius: 0 0.5rem 0.5rem 0 !important;
   margin: 0;
-  background-color: var(--react-international-phone-background-color, white);
-
-  color: var(--react-international-phone-text-color, #222);
+  background-color: white;
+  color: #24416b;
   font-family: inherit;
-  font-size: var(--react-international-phone-font-size, 13px);
+  font-size: 13px;
+}
+
+.home-contact
+  .react-international-phone-input-container
+  .react-international-phone-input:focus {
+  border-color: #fa4612 !important;
+  outline: none !important;
 }
 
 .home-contact
   .react-international-phone-input-container
   .react-international-phone-country-selector-button {
-  border-radius: 0 !important;
-  margin-right: -1px;
-  height: 50px !important;
-  padding: 0 10px !important;
+  border-radius: 0.5rem 0 0 0.5rem !important;
+  border: 2px solid #e8edf5 !important;
+  border-right: none !important;
+  height: 38px !important;
+  padding: 0 8px !important;
+  background-color: white;
+}
+
+.home-contact .react-international-phone-input-container {
+  border-radius: 0.5rem !important;
 }
 .custom-contact-main
   .react-international-phone-input-container
