@@ -54,13 +54,12 @@ const Navbar = () => {
         }`}
     >
       <nav
-        className={`absolute  w-full z-10 text-white  ${isSticky ? "bg-white shadow-md lg:bg-[#000231] top-10" : "top-14"
+        className={`absolute  w-full z-10 text-white  ${isSticky ? "bg-white shadow-md lg:bg-[#000231] top-10" : "top-17"
           }`}
       >
         <div className="px-5 bg-white lg:bg-transparent md:px-20">
-          <div className="flex justify-between items-center h-16 md:h-24">
+          <div className="flex justify-between items-center h-16 lg:h-24">
             <div className="flex-shrink-0">
-
               <Link
                 href="/"
                 className="text-2xl font-bold flex items-center"
@@ -78,11 +77,11 @@ const Navbar = () => {
                   height={700}
                   src="/Images/logo/logo-mob.webp"
                   alt="Move It Solution Logo"
-                  className="w-44 md:w-[250px] block lg:hidden"
+                  className="w-44 md:w-[195px] block lg:hidden"
                 />
               </Link>
             </div>
-            <ul className="hidden md:flex items-center  space-x-4">
+            <ul className="hidden lg:flex items-center  space-x-4">
               <li>
                 <Link
                   href="/"
@@ -297,7 +296,7 @@ const Navbar = () => {
                 />
               </div>
             </ul>
-            <div className="-mr-2 flex md:hidden">
+            <div className="-mr-2 flex lg:hidden">
               <button
                 onClick={() => toggleDropdown("mob-nav")}
                 className="inline-flex items-center justify-center text-4xl rounded-md text-[#fa4612]"
@@ -309,7 +308,7 @@ const Navbar = () => {
         </div>
 
         {isSecond === "mob-nav" && (
-          <div className="text-[#677294] md:hidden bg-white">
+          <div className="text-[#677294] lg:hidden bg-white">
             <div className="sm:px-3 h-[350px] overflow-y-auto">
               <Link
                 href="/"

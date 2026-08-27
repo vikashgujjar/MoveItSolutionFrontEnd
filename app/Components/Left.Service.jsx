@@ -2,10 +2,33 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { FaCheck } from "react-icons/fa";
+import { getSettings } from "@/app/lib/settings";
 
-const LeftService = ({ phone: phoneProp, address: addressProp }) => {
-  const phone = phoneProp || "+91-7056997000";
-  const address = addressProp || "Dwarka, Sector 26, New Delhi – 110077";
+const DEFAULT_PHONE = "+91-7056997000";
+const DEFAULT_ADDRESS = "Dwarka, Sector 26, New Delhi – 110077";
+const DEFAULT_EMAIL = "info@moveitsolution.com";
+const DEFAULT_HOURS = "9:00 AM – 6:00 PM";
+
+const LeftService = ({ phone: phoneProp, address: addressProp, email: emailProp }) => {
+  const [settings, setSettings] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    getSettings().then((data) => {
+      if (!cancelled && data) setSettings(data);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // An explicit phone/address/email prop (passed by location pages with their
+  // own resolved per-location value) always wins; otherwise fall through to
+  // the sitewide Website Settings, then the original hardcoded literal.
+  const phone = phoneProp || settings?.phone || DEFAULT_PHONE;
+  const address = addressProp || settings?.address || DEFAULT_ADDRESS;
+  const email = emailProp || settings?.email || DEFAULT_EMAIL;
+  const businessHours = settings?.business_hours || DEFAULT_HOURS;
   const items = [
     {
       id: 1,
@@ -35,36 +58,6 @@ const LeftService = ({ phone: phoneProp, address: addressProp }) => {
     },
     { id: 6, name: "Warehouse Services", href: "/Warehouse-Services" },
   ];
-
-  const [countryCodes, setCountryCodes] = useState([]);
-  const [selectedCode, setSelectedCode] = useState("+91");
-
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    course: "",
-    message: "",
-    countryCode: "+91", // Initial country code set to +91
-    userEmail: "info@bluevisionllc.com",
-  });
-
-  useEffect(() => {
-    fetch("https://restcountries.com/v3.1/all")
-      .then((response) => response.json())
-      .then((data) => {
-        // Format data for React Select
-        const options = data
-          .filter((country) => country.idd && country.idd.root) // Filter out countries without idd/root
-          .map((country) => ({
-            value:
-              country.idd.root +
-              (country.idd.suffixes ? country.idd.suffixes[0] : ""), // Combine root and suffixes
-            label: `${country.name.common} (${country.idd.root})`, // Format label with name and code
-          }));
-        setCountryCodes(options); // Set options to the state
-      });
-  }, []);
 
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
@@ -264,10 +257,10 @@ const LeftService = ({ phone: phoneProp, address: addressProp }) => {
             className={`border-b group  border-dashed w-full border-gray-200 px-5 py-3 font-medium transition duration-500  hover:bg-[#fa4612] hover:text-white`}
           >
             <Link
-              href="mailto:info@moveitsolution.com"
+              href={`mailto:${email}`}
               className="w-full flex items-center justify-between text-sm"
             >
-              [info@moveitsolution.com]
+              [{email}]
               <span>
                 <i className="bx bx-envelope border rounded-full p-2 bg-[#fa4612] text-white text-xl group-hover:text-[#fa4612] group-hover:bg-white" />
               </span>
@@ -291,10 +284,10 @@ const LeftService = ({ phone: phoneProp, address: addressProp }) => {
             className={`border-b group  border-dashed w-full border-gray-200 px-5 py-3 font-medium transition duration-500  hover:bg-[#fa4612] hover:text-white`}
           >
             <Link
-              href="mailto:info@moveitsolution.com"
+              href={`mailto:${email}`}
               className="w-full flex items-center justify-between text-sm"
             >
-              9:00 AM – 6:00 PM
+              {businessHours}
               <span>
                 <i className="bx bx-time border rounded-full p-2 bg-[#fa4612] text-white text-xl group-hover:text-[#fa4612] group-hover:bg-white" />
               </span>

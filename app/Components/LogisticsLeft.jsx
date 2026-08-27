@@ -2,8 +2,31 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { FaCheck } from "react-icons/fa";
+import { getSettings } from "@/app/lib/settings";
+
+const DEFAULT_PHONE = "+91-7056997000";
+const DEFAULT_EMAIL = "info@moveitsolution.com";
+const DEFAULT_ADDRESS = "Dwarka, Sector 26, New Delhi – 110077";
+const DEFAULT_HOURS = "9:00 AM – 6:00 PM";
 
 const LogisticsLeft = () => {
+  const [settings, setSettings] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    getSettings().then((data) => {
+      if (!cancelled && data) setSettings(data);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const phone = settings?.phone || DEFAULT_PHONE;
+  const email = settings?.email || DEFAULT_EMAIL;
+  const address = settings?.address || DEFAULT_ADDRESS;
+  const businessHours = settings?.business_hours || DEFAULT_HOURS;
+
   const items = [
     {
       id: 1,
@@ -219,10 +242,10 @@ const LogisticsLeft = () => {
             className={`border-b group   border-dashed w-full border-gray-200 px-5 py-3 font-medium transition duration-500  hover:bg-[#fa4612] hover:text-white`}
           >
             <Link
-              href="tel:+91-7056997000"
+              href={`tel:${phone}`}
               className="w-full flex items-center justify-between text-sm"
             >
-              +91-7056997000
+              {phone}
               <span>
                 <i className="bx bx-phone-call bx-rotate-270 border rounded-full p-2 bg-[#fa4612] text-white text-xl group-hover:text-[#fa4612] group-hover:bg-white   " />
               </span>
@@ -232,10 +255,10 @@ const LogisticsLeft = () => {
             className={`border-b group  border-dashed w-full border-gray-200 px-5 py-3 font-medium transition duration-500  hover:bg-[#fa4612] hover:text-white`}
           >
             <Link
-              href="mailto:info@moveitsolution.com"
+              href={`mailto:${email}`}
               className="w-full flex items-center justify-between text-sm"
             >
-              [info@moveitsolution.com]
+              [{email}]
               <span>
                 <i className="bx bx-envelope border rounded-full p-2 bg-[#fa4612] text-white text-xl group-hover:text-[#fa4612] group-hover:bg-white" />
               </span>
@@ -248,7 +271,7 @@ const LogisticsLeft = () => {
               href=""
               className="w-full flex items-center justify-between text-sm"
             >
-              Dwarka, Sector 26, New Delhi – 110077
+              {address}
               <span>
                 <i className="bx bx-location-plus border rounded-full p-2 bg-[#fa4612] text-white text-xl group-hover:text-[#fa4612] group-hover:bg-white" />
               </span>
@@ -259,10 +282,10 @@ const LogisticsLeft = () => {
             className={`border-b group  border-dashed w-full border-gray-200 px-5 py-3 font-medium transition duration-500  hover:bg-[#fa4612] hover:text-white`}
           >
             <Link
-              href="mailto:info@moveitsolution.com"
+              href={`mailto:${email}`}
               className="w-full flex items-center justify-between text-sm"
             >
-              9:00 AM – 6:00 PM
+              {businessHours}
               <span>
                 <i className="bx bx-time border rounded-full p-2 bg-[#fa4612] text-white text-xl group-hover:text-[#fa4612] group-hover:bg-white" />
               </span>

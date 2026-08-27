@@ -1,10 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "react-international-phone/style.css";
 import { PhoneInput } from "react-international-phone";
 import { FaLock } from "react-icons/fa";
 import Link from "next/link";
 import Swal from 'sweetalert2';
+import { getFormSettings } from "@/app/lib/formSettings";
 
 const ContactForm = ({ pageType }) => {
   const [phone, setPhone] = useState("+91");
@@ -17,6 +18,18 @@ const ContactForm = ({ pageType }) => {
     message: "",
     userEmailsir: "moveitsolutionpackers@gmail.com"
   });
+
+  useEffect(() => {
+    let cancelled = false;
+    getFormSettings(pageType || "global").then((data) => {
+      if (!cancelled && data?.recipient_email) {
+        setFormData((prev) => ({ ...prev, userEmailsir: data.recipient_email }));
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [pageType]);
   const handleChange = (e) => {
     setFormData({
       ...formData,

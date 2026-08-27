@@ -79,7 +79,7 @@ const page = () => {
                 the entire supply chain.
               </p>
 
-              <blockquote className="relative overflow-hidden bg-[#24416b] p-12 text-center z-10 mb-5 mt-5">
+              <blockquote className="relative overflow-hidden bg-[#24416b] p-6 sm:p-8 lg:p-12 text-center z-10 mb-5 mt-5">
                 <p className="text-white leading-6 mb-0 italic font-medium text-[17px]">
                   <i
                     className="bx bxs-quote-left"
@@ -356,7 +356,7 @@ const page = () => {
                   marked *
                 </p>
                 <form action="#" method="post" className="comment-form">
-                  <div className="flex gap-8">
+                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-8">
                     <div className="form-group w-full mb-4">
                       <label
                         htmlFor="name"

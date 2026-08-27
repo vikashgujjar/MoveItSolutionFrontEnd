@@ -7,22 +7,32 @@ const FloatingContactButtons = ({ phone, whatsappNumber }) => {
   const waClean = wa.replace(/\s+/g, "");
 
   return (
-    <div className="fixed bottom-6 right-4 z-50 flex flex-col gap-3">
+    <div className="fixed bottom-6 right-4 z-50 flex flex-col gap-3 items-end">
       <Link
         href={`https://wa.me/${waClean}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-2 bg-[#fa7911] text-white font-bold text-sm px-5 py-3 rounded-full shadow-lg hover:brightness-110 transition-all"
+        aria-label="WhatsApp us"
+        className="group flex items-center bg-[#fa4612] text-white rounded-full shadow-lg hover:brightness-110 transition-all duration-300 overflow-hidden"
       >
-        <FaWhatsapp className="text-xl" />
-        WHATSAPP
+        <span className="flex items-center justify-center w-14 h-14 shrink-0">
+          <FaWhatsapp className="text-2xl" />
+        </span>
+        <span className="max-w-0 group-hover:max-w-[10rem] group-hover:pr-5 overflow-hidden whitespace-nowrap font-bold text-sm transition-all duration-300">
+          WHATSAPP
+        </span>
       </Link>
       <Link
         href={`tel:${wa}`}
-        className="flex items-center gap-2 bg-[#1a3c2e] text-white font-bold text-sm px-5 py-3 rounded-full shadow-lg hover:brightness-110 transition-all"
+        aria-label="Call us"
+        className="group flex items-center bg-[#2f0202] text-white rounded-full shadow-lg hover:brightness-110 transition-all duration-300 overflow-hidden"
       >
-        <FaPhoneAlt className="text-base" />
-        CALL NOW
+        <span className="flex items-center justify-center w-14 h-14 shrink-0">
+          <FaPhoneAlt className="text-lg" />
+        </span>
+        <span className="max-w-0 group-hover:max-w-[10rem] group-hover:pr-5 overflow-hidden whitespace-nowrap font-bold text-sm transition-all duration-300">
+          CALL NOW
+        </span>
       </Link>
     </div>
   );

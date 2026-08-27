@@ -21,7 +21,7 @@ const WeOffer = () => {
           <div className="container mx-auto">
             <div className="flex flex-wrap justify-center gap-6">
               {/* Service 1 */}
-              <div className="w-full sm:w-1/2 lg:w-[31.4%]" data-aos="fade-up">
+              <div className="w-full sm:w-1/2 md:w-[48%] lg:w-[31.4%]" data-aos="fade-up">
                 <div className="single-service one relative text-center bg-white shadow-lg px-6 py-8 transition-all duration-500 hover:bg-transparent">
                   <div className="service-content-wrap transition-all duration-500">
                     <FaTruck className="text-5xl mb-5 text-[#fa4612]" />
@@ -45,7 +45,7 @@ const WeOffer = () => {
               </div>
 
               {/* Service 2 */}
-              <div className="w-full sm:w-1/2 lg:w-[31.4%]" data-aos="fade-up">
+              <div className="w-full sm:w-1/2 md:w-[48%] lg:w-[31.4%]" data-aos="fade-up">
                 <div className="single-service two relative text-center bg-white shadow-lg px-6 py-8 transition-all duration-500 hover:bg-transparent">
                   <div className="service-content-wrap transition-all duration-500">
                     <FaPrescriptionBottle className="text-5xl mb-5 text-[#fa4612]" />
@@ -68,7 +68,7 @@ const WeOffer = () => {
               </div>
 
               {/* Service 3 */}
-              <div className="w-full sm:w-1/2 lg:w-[31.4%]" data-aos="fade-up">
+              <div className="w-full sm:w-1/2 md:w-[48%] lg:w-[31.4%]" data-aos="fade-up">
                 <div className="single-service three">
                   <div className="service-content-wrap transition-all duration-500">
                     <FaPlaneDeparture className="text-5xl mb-5 text-[#fa4612]" />

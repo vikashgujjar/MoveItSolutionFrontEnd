@@ -3,8 +3,8 @@ import "./globals.css";
 import Topbar from "./Components/Topbar";
 import Footer from "./Components/Footer";
 import LayoutWrapper from "./LayoutWrapper";
+import GlobalFloatingButtons from "./Components/GlobalFloatingButtons";
 import Script from "next/script";
-import "@fortawesome/fontawesome-free/css/all.min.css";
 import "boxicons/css/boxicons.min.css";
 
 const geistSans = localFont({
@@ -131,6 +131,7 @@ export default function RootLayout({ children }) {
           {children}
         </LayoutWrapper>
         <Footer />
+        <GlobalFloatingButtons />
       </body>
     </html>
   );

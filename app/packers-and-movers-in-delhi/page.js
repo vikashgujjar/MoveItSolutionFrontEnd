@@ -4,7 +4,7 @@ import Script from "next/script";
 import React from "react";
 import { FaCheck } from "react-icons/fa";
 import FaqMain from "@/app/Components/FaqMain";
-import LeftService from "@/app/Components/Left.Service";
+import { LocationSidebar } from "@/app/Components/LocationContactData";
 import OurServices from "@/app/Components/OurServices";
 import ServiceOffer from "@/app/Components/ServiceOffer";
 import HowItWork from "../Components/HowItWork";
@@ -94,13 +94,13 @@ const page = () => {
       </Script>
 
       <div className="bg-gray-100 banner h-full pt-28 pb-10">
-        <div className="px-10 lg:px-28 w-full h-full">
+        <div className="px-5 md:px-10 lg:px-28 w-full h-full">
           <div className="flex justify-center lg:justify-end  items-center h-full">
             <div className="text-white flex text-sm gap-5 hover:text-blue-500">
               <Link href="/" className="">
                 Home
               </Link>
-              <li className="text-[#fa4612] text-nowrap">
+              <li className="text-[#fa4612] lg:text-nowrap">
                 Packers and Movers in Delhi
               </li>
             </div>
@@ -367,7 +367,7 @@ const page = () => {
 
           <div className="lg:col-span-4">
             <aside className="sidebar-area sticky top-20">
-              <LeftService active="1" />
+              <LocationSidebar slug="delhi" fallbackPhone="+91-7056997000" fallbackAddress="Sco No : 487, 1st Floor, Near SBI Bank, Dwarka Sector 26, New Delhi (110077)" />
 
               <div className="bg-white p-5 mt-5">
                 <h2 className="text-xl md:text-2xl   font-semimedium">

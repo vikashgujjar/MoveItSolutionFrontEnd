@@ -1,47 +1,29 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
+import { getTeamMembers } from "@/app/lib/teamMembers";
 
 const page = () => {
-  const teamMembers = [
-    {
-      name: "Jonkin Jullinor",
-      role: "Product supplier",
-      image: "/Images/team/Jonkin-Jullinor.webp",
-    },
-    {
-      name: "Naimuk Waninolin",
-      role: "Office executive support",
-      image: "/Images/team/Moris-Julfikar.webp",
-    },
-    {
-      name: "Moris Julfikar",
-      role: "Regional supplier",
-      image: "/Images/team/Naimuk-Waninolin.webp",
-    },
-    {
-      name: "Waxin Alexgander",
-      role: "International supplier",
-      image: "/Images/team/Waxin-Alexgander.webp",
-    },
-    {
-      name: "Rilee Rossouw",
-      role: "International supplier",
-      image: "/Images/img/Rilee-Rossouw.webp",
-    },
-    {
-      name: "Devon Conway",
-      role: "International supplier",
-      image: "/Images/img/Devon-Conway.webp",
-    },
-  ];
+  const [teamMembers, setTeamMembers] = useState([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    getTeamMembers().then((data) => {
+      if (!cancelled && Array.isArray(data)) {
+        setTeamMembers(data);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <>
-<head>
+      <head>
         <title>
-        Our Professional Team | Move It Solution
+          Our Professional Team | Move It Solution
 
         </title>
         <meta
@@ -49,8 +31,6 @@ const page = () => {
           content="Are you looking for professional movers? Move IT Solution has a dedicated team for all your moving needs. Contact us today for a seamless relocation experience."
         />
       </head>
-
-
 
       <div className="bg-gray-100 banner h-full pt-28 pb-10">
         <div className="px-10 lg:px-28 w-full h-full">
@@ -96,7 +76,7 @@ const page = () => {
                 <ul className="absolute hidden group-hover:block top-0 justify-center">
                   <li className="w-10 h-10 bg-[#24416b] text-center text-white leading-[40px] border-b border-[#19345a] transition-transform duration-500 transform rotate-y-90 origin-left group-hover:rotate-x-0 delay-200">
                     <Link
-                      href=""
+                      href={member.facebook_url || ""}
                       className="text-gray-400 hover:text-blue-600 transition"
                     >
                       <i className="bx bxl-facebook text-lg text-white"></i>
@@ -104,7 +84,7 @@ const page = () => {
                   </li>
                   <li className="w-10 h-10 bg-[#24416b] text-center text-white leading-[40px] border-b border-[#19345a] transition-transform duration-500 transform rotate-y-90 origin-left group-hover:rotate-x-0 delay-200">
                     <Link
-                      href=""
+                      href={member.twitter_url || ""}
                       className="text-gray-400 hover:text-blue-400 transition"
                     >
                       <i className="bx bxl-twitter text-lg text-white"></i>
@@ -112,7 +92,7 @@ const page = () => {
                   </li>
                   <li className="w-10 h-10 bg-[#24416b] text-center text-white leading-[40px] border-b border-[#19345a] transition-transform duration-500 transform rotate-y-90 origin-left group-hover:rotate-x-0 delay-200">
                     <Link
-                      href=""
+                      href={member.instagram_url || ""}
                       className="text-gray-400 hover:text-pink-600 transition"
                     >
                       <i className="bx bxl-instagram text-lg text-white"></i>
@@ -120,7 +100,7 @@ const page = () => {
                   </li>
                   <li className="w-10 h-10 bg-[#24416b] text-center text-white leading-[40px] border-b border-[#19345a] transition-transform duration-500 transform rotate-y-90 origin-left group-hover:rotate-x-0 delay-200">
                     <Link
-                      href=""
+                      href={member.linkedin_url || ""}
                       className="text-gray-400 hover:text-blue-700 transition"
                     >
                       <i className="bx bxl-linkedin text-lg text-white"></i>
@@ -130,53 +110,6 @@ const page = () => {
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="page-navigation-area flex justify-center mt-12">
-          <nav aria-label="Page navigation example">
-            <ul className="pagination flex gap-2">
-              <li className="page-item">
-                <Link
-                  href="#"
-                  className="page-link page-links flex items-center justify-center w-10 h-10  bg-white custom-shadow hover:bg-[#fa4612] hover:text-white"
-                >
-                  <i className="bx bx-chevrons-left"></i>
-                </Link>
-              </li>
-              <li className="page-item">
-                <Link
-                  href="#"
-                  className="page-link flex items-center justify-center custom-shadow w-10 h-10  bg-[#fa4612] text-white"
-                >
-                  1
-                </Link>
-              </li>
-              <li className="page-item">
-                <Link
-                  href="#"
-                  className="page-link flex items-center justify-center w-10 h-10  bg-white custom-shadow hover:bg-[#fa4612] hover:text-white"
-                >
-                  2
-                </Link>
-              </li>
-              <li className="page-item">
-                <Link
-                  href="#"
-                  className="page-link flex items-center justify-center w-10 h-10  bg-white custom-shadow hover:bg-[#fa4612] hover:text-white"
-                >
-                  3
-                </Link>
-              </li>
-              <li className="page-item">
-                <Link
-                  href="#"
-                  className="page-link page-links flex items-center justify-center w-10 h-10  bg-white custom-shadow hover:bg-[#fa4612] hover:text-white"
-                >
-                  <i className="bx bx-chevrons-right"></i>
-                </Link>
-              </li>
-            </ul>
-          </nav>
         </div>
       </section>
     </>

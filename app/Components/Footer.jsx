@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { FaChevronRight, FaLinkedinIn, FaYoutube } from "react-icons/fa";
 import {
   FaTwitter,
@@ -9,8 +10,32 @@ import {
 
 import Link from "next/link";
 import Image from "next/image";
+import { getSettings } from "@/app/lib/settings";
+
+const DEFAULT_SOCIAL = {
+  facebook: "https://www.facebook.com/moveitsolution",
+  twitter: "https://twitter.com/moveitsolution",
+  instagram: "https://www.instagram.com/moveitsolution/",
+  linkedin: "https://www.linkedin.com/in/move-it-solution-257846226/",
+  youtube: "https://www.youtube.com/channel/UCeU4KG_f6DU9aivOhDQrLBg",
+};
+const DEFAULT_COPYRIGHT = "Copyright 2021 Move It Solution. Designed By";
 
 const Footer = () => {
+  const [settings, setSettings] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    getSettings().then((data) => {
+      if (!cancelled && data) setSettings(data);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const social = { ...DEFAULT_SOCIAL, ...(settings?.social_links || {}) };
+
   return (
     <>
       <div className="footer  text-white  pt-2 lg:mt-0 relative z-10">
@@ -37,35 +62,35 @@ const Footer = () => {
 
             <div className="flex gap-3 mt-5">
               <Link
-                href="https://twitter.com/moveitsolution"
+                href={social.twitter}
                 target="_Blank"
                 className="bg-[#00c7c7] p-2  hover:bg-[#fa4612] text-sm rounded"
               >
                 <FaTwitter />
               </Link>
               <Link
-                href="https://www.facebook.com/moveitsolution"
+                href={social.facebook}
                 target="_Blank"
                 className="bg-[#00c7c7] p-2  hover:bg-[#fa4612] text-sm rounded"
               >
                 <FaFacebook />
               </Link>
               <Link
-                href="https://www.instagram.com/moveitsolution/"
+                href={social.instagram}
                 target="_Blank"
                 className="bg-[#00c7c7] p-2  hover:bg-[#fa4612] text-sm rounded"
               >
                 <FaInstagram />
               </Link>
               <Link
-                href="https://www.linkedin.com/in/move-it-solution-257846226/"
+                href={social.linkedin}
                 target="_Blank"
                 className="bg-[#00c7c7] p-2  hover:bg-[#fa4612] text-sm rounded"
               >
                 <FaLinkedinIn />
               </Link>
               <Link
-                href="https://www.youtube.com/channel/UCeU4KG_f6DU9aivOhDQrLBg"
+                href={social.youtube}
                 target="_Blank"
                 className="bg-[#00c7c7] p-2  hover:bg-[#fa4612] text-sm rounded"
               >
@@ -186,7 +211,7 @@ const Footer = () => {
 
       <div className="bg-[#d3000a] block lg:flex  justify-between w-full px-5 md:px-10 lg:px-28 py-4 text-white text-[15px] text-center">
         <div>
-          <ul className="flex gap-8 list-disc justify-center mb-2 lg:mb-0">
+          <ul className="flex flex-wrap gap-4 sm:gap-6 lg:gap-8 list-disc justify-center mb-2 lg:mb-0">
             <li className="hover:text-[#fa4612]">
               <Link href="/terms-conditions">Terms & Conditions</Link>
             </li>
@@ -203,7 +228,7 @@ const Footer = () => {
 
         <p>
           {" "}
-          Copyright 2021 Move It Solution. Designed By
+          {settings?.copyright_text || DEFAULT_COPYRIGHT}
           <Link
             href="https://www.futuretouch.in/"
             target="_blank"

@@ -45,7 +45,7 @@ const Map = () => {
         <h2 className="text-2xl lg:text-[40px] mb-8 text-center">
           Featured Projects have done
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-4  gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4  gap-6">
           {images.map((src, index) => (
             <div
               key={index}

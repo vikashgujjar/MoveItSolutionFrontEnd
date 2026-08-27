@@ -1,32 +1,28 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
+import { getTeamMembers } from "@/app/lib/teamMembers";
 
 const TeamMember = () => {
-  const teamMembers = [
-    {
-      name: "Jonkin Jullinor",
-      role: "Product supplier",
-      image: "/Images/team/Jonkin-Jullinor.webp",
-    },
-    {
-      name: "Naimuk Waninolin",
-      role: "Office executive support",
-      image: "/Images/team/Moris-Julfikar.webp",
-    },
-    {
-      name: "Moris Julfikar",
-      role: "Regional supplier",
-      image: "/Images/team/Naimuk-Waninolin.webp",
-    },
-    {
-      name: "Waxin Alexgander",
-      role: "International supplier",
-      image: "/Images/team/Waxin-Alexgander.webp",
-    },
-  ];
+  const [teamMembers, setTeamMembers] = useState([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    getTeamMembers().then((data) => {
+      if (!cancelled && Array.isArray(data)) {
+        setTeamMembers(data.slice(0, 4));
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (teamMembers.length === 0) {
+    return null;
+  }
 
   return (
     <>
@@ -64,7 +60,7 @@ const TeamMember = () => {
                 <ul className="absolute hidden group-hover:block top-0 justify-center">
                   <li className="w-10 h-10 bg-[#24416b] text-center text-white leading-[40px] border-b border-[#19345a] transition-transform duration-500 transform rotate-y-90 origin-left group-hover:rotate-x-0 delay-200">
                     <Link
-                      href=""
+                      href={member.facebook_url || ""}
                       className="text-gray-400 hover:text-blue-600 transition"
                     >
                       <i className="bx bxl-facebook text-lg text-white"></i>
@@ -72,7 +68,7 @@ const TeamMember = () => {
                   </li>
                   <li className="w-10 h-10 bg-[#24416b] text-center text-white leading-[40px] border-b border-[#19345a] transition-transform duration-500 transform rotate-y-90 origin-left group-hover:rotate-x-0 delay-200">
                     <Link
-                      href=""
+                      href={member.twitter_url || ""}
                       className="text-gray-400 hover:text-blue-400 transition"
                     >
                       <i className="bx bxl-twitter text-lg text-white"></i>
@@ -80,7 +76,7 @@ const TeamMember = () => {
                   </li>
                   <li className="w-10 h-10 bg-[#24416b] text-center text-white leading-[40px] border-b border-[#19345a] transition-transform duration-500 transform rotate-y-90 origin-left group-hover:rotate-x-0 delay-200">
                     <Link
-                      href=""
+                      href={member.instagram_url || ""}
                       className="text-gray-400 hover:text-pink-600 transition"
                     >
                       <i className="bx bxl-instagram text-lg text-white"></i>
@@ -88,7 +84,7 @@ const TeamMember = () => {
                   </li>
                   <li className="w-10 h-10 bg-[#24416b] text-center text-white leading-[40px] border-b border-[#19345a] transition-transform duration-500 transform rotate-y-90 origin-left group-hover:rotate-x-0 delay-200">
                     <Link
-                      href=""
+                      href={member.linkedin_url || ""}
                       className="text-gray-400 hover:text-blue-700 transition"
                     >
                       <i className="bx bxl-linkedin text-lg text-white"></i>

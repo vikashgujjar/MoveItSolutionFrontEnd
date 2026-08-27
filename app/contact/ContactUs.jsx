@@ -1,4 +1,5 @@
 import React from "react";
+import { FaLock } from "react-icons/fa";
 
 const ContactUs = () => {
   return (
@@ -83,7 +84,7 @@ const ContactUs = () => {
                   Submit
                 </button>
                 <p className="text-gray-500 text-sm mt-4">
-                  <i className="fas fa-lock"></i> We hate spam, and we respect
+                  <FaLock className="inline" /> We hate spam, and we respect
                   your privacy.
                 </p>
               </form>

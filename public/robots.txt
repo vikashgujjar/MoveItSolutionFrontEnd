@@ -1,0 +1,6 @@
+User-Agent: *
+Allow: /
+Disallow: /packersmovers
+Disallow: /best-packers-and-movers-in-bangalore
+
+Sitemap: https://www.moveitsolution.com/sitemap.xml

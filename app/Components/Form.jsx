@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import { getFormSettings } from "@/app/lib/formSettings";
+import { pathnameToSlug } from "@/app/lib/pageSlug";
 import { FaTruck } from "react-icons/fa";
 import { GiCommercialAirplane } from "react-icons/gi";
 import TrackingNumberArea from "./Tracking";
@@ -23,6 +25,7 @@ const FROM = ({ head }) => {
 
 const Form = ({ showOnlyLocal = false, notifyEmail }) => {
   const router = useRouter();
+  const pathname = usePathname();
   const [activeTab, setActiveTab] = useState(showOnlyLocal ? "local" : "international");
   const [isOpen, setIsOpen] = useState(null);
 
@@ -44,6 +47,25 @@ const Form = ({ showOnlyLocal = false, notifyEmail }) => {
     service_type: "",
     userEmailsir: notifyEmail || "moveitsolutionpackers@gmail.com,packersmoversspeedking@gmail.com"
   });
+
+  useEffect(() => {
+    // An explicit notifyEmail prop (e.g. Bangalore's LocationBanner override)
+    // always wins; otherwise resolve the recipient for this page from the
+    // admin-managed form settings, falling back to today's hardcoded default.
+    if (notifyEmail) return;
+    let cancelled = false;
+    const slug = pathnameToSlug(pathname);
+    getFormSettings(slug).then((data) => {
+      if (!cancelled && data?.recipient_email) {
+        setFormData((prev) => ({ ...prev, userEmailsir: data.recipient_email }));
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname, notifyEmail]);
+
   const [otpVerified, setOtpVerified] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState(new Array(6).fill(""));

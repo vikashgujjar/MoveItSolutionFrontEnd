@@ -1,5 +1,4 @@
 import FaqMain from "@/app/Components/FaqMain";
-import LeftService from "@/app/Components/Left.Service";
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
@@ -10,7 +9,7 @@ import ServiceOffer from "@/app/Components/ServiceOffer";
 import HowItWork from "../Components/HowItWork";
 import WhyExpress from "../Components/WhyExpress";
 import LocationBanner from "../Components/LocationBanner";
-import FloatingContactButtons from "../Components/FloatingContactButtons";
+import LocationContactData, { LocationLeftService } from "@/app/Components/LocationContactData";
 
 export const metadata = {
   title: "Best Packers and Movers in Bangalore | Safe & Affordable",
@@ -19,11 +18,10 @@ export const metadata = {
 
 // const BANGALORE_PHONE = "+91 63615 17700";
 const BANGALORE_PHONE = "+91 7056997000";
+const BANGALORE_ADDRESS_FALLBACK = "Dwarka, Sector 26, New Delhi – 110077";
 const page = () => {
   return (
-    <>
-      <FloatingContactButtons phone={BANGALORE_PHONE} />
-
+    <LocationContactData slug="bangalore" fallbackPhone={BANGALORE_PHONE} fallbackAddress={BANGALORE_ADDRESS_FALLBACK}>
       <Script id="schema-moving-company" type="application/ld+json">
         {`
           {
@@ -114,7 +112,7 @@ const page = () => {
                 </div> */}
       </div>
       <div>
-        <LocationBanner notifyEmail="vinikumar609@gmail.com" />
+        <LocationBanner />
       </div>
 
       <div className="px-0 md:px-10 lg:px-28 my-5 md:my-14 ">
@@ -307,7 +305,7 @@ const page = () => {
 
           <div className="lg:col-span-4">
             <aside className="sidebar-area sticky top-20">
-              <LeftService active="1" phone={BANGALORE_PHONE} address="Dwarka, Sector 26, New Delhi – 110077" />
+              <LocationLeftService />
 
               <div className="bg-white p-5 mt-5">
                 <h2 className="text-xl md:text-2xl   font-semimedium">
@@ -369,7 +367,7 @@ const page = () => {
       </div>
       <FaqMain pageType="bangalore" />
       <OurServices />
-    </>
+    </LocationContactData>
   );
 };
 

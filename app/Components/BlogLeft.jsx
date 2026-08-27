@@ -1,10 +1,33 @@
+"use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import React from "react";
+import { getBlogPosts } from "@/app/lib/blogPosts";
+
+function formatDate(value) {
+  if (!value) return "";
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return "";
+  return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+}
 
 const BlogLeft = () => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    getBlogPosts().then((data) => {
+      if (!cancelled && Array.isArray(data)) {
+        setPosts(data.slice(0, 4));
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <>
-      <aside >
+      <aside className="sticky top-32">
         <div className="widget mb-6 custom-shadow bg-white">
           <h3
             className="widget-title relative text-[20px] mb-0 bg-[#24416b] px-5 py-2 text-white capitalize"
@@ -30,78 +53,58 @@ const BlogLeft = () => {
           </div>
         </div>
 
-        <section className="widget widget-peru-posts-thumb mb-6 custom-shadow">
-          <h3
-            className="widget-title relative text-[20px] mb-0 bg-[#24416b] px-5 py-2 text-white capitalize"
-            style={{ clipPath: "polygon(0 0, 100% 0, 90% 100%, 0% 100%)" }}
-          >
-            Popular Posts
-          </h3>
+        {posts.length > 0 && (
+          <section className="widget widget-peru-posts-thumb mb-6 custom-shadow">
+            <h3
+              className="widget-title relative text-[20px] mb-0 bg-[#24416b] px-5 py-2 text-white capitalize"
+              style={{ clipPath: "polygon(0 0, 100% 0, 90% 100%, 0% 100%)" }}
+            >
+              Popular Posts
+            </h3>
 
-          <div className="post-wrap p-5">
-            {[
-              {
-                date: "January 01, 2021",
-                title: "How Can Communities Organise Their Own Logistics?",
-                bg: "bg1",
-              },
-              {
-                date: "February 05, 2021",
-                title:
-                  "Outstanding template with a tonne of features on the board!",
-                bg: "bg2",
-              },
-              {
-                date: "January 01, 2021",
-                title: "How Can Communities Organise Their Own Logistics?",
-                bg: "bg1",
-              },
-              {
-                date: "February 05, 2021",
-                title:
-                  "Outstanding template with a tonne of features on the board!",
-                bg: "bg2",
-              },
-              // Add more posts here
-            ].map((post, index, arr) => (
-              <article
-                key={index}
-                className={`item flex  pb-2.5 ${
-                  index !== arr.length - 1
-                    ? "border-b border-[#efefef] mb-2.5"
-                    : ""
-                }`}
-              >
-                <Link href="/blog">
-                  <p
-                    className="thumb w-16 h-16 bg-gray-300 rounded mr-4"
-                    style={{
-                      backgroundImage: `url('/images/${post.bg}.jpg')`,
-                    }}
-                  >
-                    <span className="fullimage cover" role="img"></span>
-                  </p>
-                </Link>
-                <div className="info">
-                  <time
-                    dateTime={post.date}
-                    className="search-field text-[13px] text-[#929292] mb-1 block "
-                  >
-                    {post.date}
-                  </time>
-                  <h4 className="usmall text-sm">
-                    <Link href="/blog" className="text-[#474c40]">
-                      {post.title}
-                    </Link>
-                  </h4>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
+            <div className="post-wrap p-5">
+              {posts.map((post, index) => (
+                <article
+                  key={post.slug}
+                  className={`item flex pb-2.5 ${
+                    index !== posts.length - 1
+                      ? "border-b border-[#efefef] mb-2.5"
+                      : ""
+                  }`}
+                >
+                  <Link href={`/blog/${post.slug}`}>
+                    <p
+                      className="thumb w-16 h-16 bg-gray-300 rounded mr-4 bg-cover bg-center"
+                      style={
+                        post.featured_image
+                          ? { backgroundImage: `url('${post.featured_image}')` }
+                          : undefined
+                      }
+                    >
+                      <span className="fullimage cover" role="img"></span>
+                    </p>
+                  </Link>
+                  <div className="info">
+                    <time
+                      dateTime={post.published_at || ""}
+                      className="search-field text-[13px] text-[#929292] mb-1 block "
+                    >
+                      {formatDate(post.published_at)}
+                    </time>
+                    <h4 className="usmall text-sm">
+                      <Link href={`/blog/${post.slug}`} className="text-[#474c40]">
+                        {post.title}
+                      </Link>
+                    </h4>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Archives */}
-        <section className="widget widget_categories mb-6 custom-shadow">
+        {/* <section className="widget widget_categories mb-6 custom-shadow">
           <h3
             className="widget-title relative text-[20px] mb-0 bg-[#24416b] px-5 py-2 text-white capitalize"
             style={{ clipPath: "polygon(0 0, 100% 0, 90% 100%, 0% 100%)" }}
@@ -136,10 +139,10 @@ const BlogLeft = () => {
               </li>
             ))}
           </ul>
-        </section>
+        </section> */}
 
         {/* Categories */}
-        <section className="widget widget_categories mb-6 custom-shadow">
+        {/* <section className="widget widget_categories mb-6 custom-shadow">
           <h3
             className="widget-title relative text-[20px] mb-0 bg-[#24416b] px-5 py-2 text-white capitalize"
             style={{ clipPath: "polygon(0 0, 100% 0, 90% 100%, 0% 100%)" }}
@@ -175,10 +178,10 @@ const BlogLeft = () => {
               </li>
             ))}
           </ul>
-        </section>
+        </section> */}
 
         {/* Tags */}
-        <section className="widget widget_tag_cloud custom-shadow">
+        {/* <section className="widget widget_tag_cloud custom-shadow">
           <h3
             className="widget-title relative text-[20px] mb-0 bg-[#24416b] px-5 py-2 text-white capitalize"
             style={{ clipPath: "polygon(0 0, 100% 0, 90% 100%, 0% 100%)" }}
@@ -204,7 +207,7 @@ const BlogLeft = () => {
               </Link>
             ))}
           </div>
-        </section>
+        </section> */}
       </aside>
     </>
   );

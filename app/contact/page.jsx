@@ -6,8 +6,32 @@ import Banner from "./Banner";
 import Location from "./OfficeLocations";
 import Counter from "../Components/Counter";
 import ContactForm from "../Components/contactForm";
+import { getPageContact } from "@/app/lib/pageContact";
+
+const DEFAULT_PHONE = "+91-7056997000";
+const DEFAULT_EMAIL = "info@moveitsolution.com";
+const DEFAULT_ADDRESS = "Sco No : 487, 1st Floor, Near SBI Bank, Dwarka Sector 26, New Delhi (110077)";
 
 const Contact = () => {
+  const [pageContact, setPageContact] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    getPageContact("contact").then((data) => {
+      if (!cancelled && data) setPageContact(data);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // getPageContact already resolves page -> location -> global settings
+  // server-side, so its values are used directly; the hardcoded literals
+  // are the final fallback if the fetch itself fails.
+  const phone = pageContact?.phone || DEFAULT_PHONE;
+  const email = pageContact?.email || DEFAULT_EMAIL;
+  const address = pageContact?.address || DEFAULT_ADDRESS;
+
   return (
     <>
       <head>
@@ -44,10 +68,10 @@ const Contact = () => {
               Assistance hours: Monday – Friday, 9 am to 6 pm
             </p>
             <Link
-              href="tel:+91-7056997000"
+              href={`tel:${phone}`}
               className="font-semibold  text-lg lg:text-xl "
             >
-              Delhi office: (+91) 7056997000
+              Delhi office: {phone}
             </Link>
           </div>
           <div className="info-card custom-shadow my-5 p-8   bg-[#ffecec]">
@@ -60,10 +84,10 @@ const Contact = () => {
               hours.
             </p>
             <Link
-              href="mailto:info@moveitsolution.com"
+              href={`mailto:${email}`}
               className="font-semibold text-lg lg:text-xl "
             >
-              info@moveitsolution.com
+              {email}
             </Link>
           </div>
           <div className="info-card custom-shadow my-5 p-8   bg-[#eafffd]">
@@ -71,8 +95,7 @@ const Contact = () => {
               <i class="bx bx-location-plus"></i> Head Office Address:
             </span>
             <p className="mt-3 mb-2">
-              Sco No : 487, 1st Floor, Near SBI Bank, Dwarka Sector 26, New
-              Delhi (110077)
+              {address}
             </p>
           </div>
         </div>

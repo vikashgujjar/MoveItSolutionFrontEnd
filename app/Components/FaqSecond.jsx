@@ -104,7 +104,7 @@ const FaqSecond = () => {
           height={700}
           src="/Images/img/faq1.webp"
           alt="Frequently Asked Questions (FAQ)"
-          className="w-[450px] h-auto object-cover"
+          className="w-full lg:w-[450px] h-auto object-cover"
         />
       </div>
     </div>

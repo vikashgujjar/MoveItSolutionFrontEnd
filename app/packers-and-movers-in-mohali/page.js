@@ -4,7 +4,7 @@ import Script from "next/script";
 import React from "react";
 import { FaCheck } from "react-icons/fa";
 import FaqMain from "@/app/Components/FaqMain";
-import LeftService from "@/app/Components/Left.Service";
+import { LocationSidebar } from "@/app/Components/LocationContactData";
 import OurServices from "@/app/Components/OurServices";
 import ServiceOffer from "@/app/Components/ServiceOffer";
 import HowItWork from "../Components/HowItWork";
@@ -294,7 +294,7 @@ const page = () => {
 
           <div className="lg:col-span-4">
             <aside className="sidebar-area sticky top-20">
-              <LeftService active="1" />
+              <LocationSidebar slug="mohali" fallbackPhone="+91-7056997000" fallbackAddress="Sco No : 487, 1st Floor, Near SBI Bank, Dwarka Sector 26, New Delhi (110077)" />
 
               <div className="bg-white p-5 mt-5">
                 <h2 className="text-xl md:text-2xl   font-semimedium">

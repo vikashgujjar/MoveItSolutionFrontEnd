@@ -1,6 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import {
+  FaCalendarAlt,
+  FaShoppingCart,
+  FaHome,
+  FaTruck,
+  FaGlobe,
+  FaUsers,
+  FaShare,
+  FaAngleDoubleRight,
+} from "react-icons/fa";
+
+const SERVICE_ICONS = {
+  "fa-calendar": FaCalendarAlt,
+  "fa-shopping-cart": FaShoppingCart,
+  "fa-home": FaHome,
+  "fa-truck": FaTruck,
+  "fa-globe": FaGlobe,
+  "fa-users": FaUsers,
+};
 
 const page = () => {
   const services = [
@@ -81,7 +100,7 @@ const page = () => {
   return (
     <>
       <header className="bg-white border-b-[5px] border-[#ffb118] shadow">
-        <div className="container mx-auto px-28">
+        <div className="container mx-auto px-4 sm:px-8 lg:px-28">
           <div className="flex flex-wrap items-center justify-between py-2">
             {/* Logo Section */}
             <div className="">
@@ -155,7 +174,7 @@ const page = () => {
           <div className="flex flex-wrap">
             {/* Text Section */}
             <div className="w-full md:w-7/12 ">
-              <div className="text-white m-40">
+              <div className="text-white m-6 sm:m-12 lg:m-40">
                 <h5 className="text-lg text-white uppercase font-semibold tracking-widest">
                   We Provide
                 </h5>
@@ -196,7 +215,7 @@ const page = () => {
           </div>
         </div>
       </div>
-      <div className="w-full py-20 px-28 ">
+      <div className="w-full py-20 px-4 sm:px-8 lg:px-28 ">
         <div className="text-center relative mb-[66px] mx-auto max-w-2xl">
           <span className="absolute left-1/2 top-[-49px] opacity-[0.04] text-[80px] font-bold -ml-[47px] tracking-[1.5px]">
             01
@@ -209,16 +228,21 @@ const page = () => {
             venenatis augue nec pretium ornare, ante mauris congue dui.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10  mx-28">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mx-0 lg:mx-28">
           {services.map((service, index) => (
             <div className="group">
               <div
                 key={index}
                 className="bg-[#f5f5f5] group-hover:bg-[#272b3d] relative  rounded-lg p-8 text-center transition duration-300"
               >
-                <i
-                  className={`fa ${service.icon} group-hover:bg-[#ffb118] absolute left-[-20px] border-[#272b3d] top-[-20px] w-[60px] h-[60px] bg-[#f5f5f5] rounded-full text-center text-[20px] py-[18px] px-0 border border-dashed`}
-                ></i>
+                {(() => {
+                  const Icon = SERVICE_ICONS[service.icon];
+                  return (
+                    <span className="group-hover:bg-[#ffb118] absolute left-[-20px] border-[#272b3d] top-[-20px] w-[60px] h-[60px] bg-[#f5f5f5] rounded-full flex items-center justify-center text-[20px] border border-dashed">
+                      {Icon && <Icon />}
+                    </span>
+                  );
+                })()}
                 <h5 className="text-lg font-semibold mb-2 group-hover:text-white">
                   {service.title}
                 </h5>
@@ -230,7 +254,7 @@ const page = () => {
           ))}
         </div>
       </div>
-      <div className="w-full pt-10 pb-20 px-28 ">
+      <div className="w-full pt-10 pb-20 px-4 sm:px-8 lg:px-28 ">
         <div className="text-center relative mb-[66px] mx-auto max-w-2xl">
           <span className="absolute left-1/2 top-[-49px] opacity-[0.04] text-[80px] font-bold -ml-[47px] tracking-[1.5px]">
             02
@@ -257,7 +281,7 @@ const page = () => {
                       height={400}
                       className="w-full h-auto"
                     />
-                    <i className="fa fa-share absolute top-2 right-2 text-white"></i>
+                    <FaShare className="absolute top-2 right-2 text-white" />
                   </Link>
                   <time
                     dateTime="2008-02-14 20:00"
@@ -267,7 +291,7 @@ const page = () => {
                   </time>
                 </figure>
                 <div className="moverspackers-blog-classic-wrap bg-[#f5f5f5]">
-                  <ul className="moverspackers-blog-option bg-[#272b3d] text-white  text-sm flex  w-[84%] relative m-0 p-[9px_30px_12px] border-b-[3px] border-[#ffb118] ">
+                  <ul className="moverspackers-blog-option bg-[#272b3d] text-white  text-sm flex flex-wrap gap-y-1  w-[84%] relative m-0 p-[9px_30px_12px] border-b-[3px] border-[#ffb118] ">
                     <li className="mr-5 pr-5 border-r border-gray-50">
                       Posted By:{" "}
                       <Link href="404.html" className="">
@@ -296,7 +320,7 @@ const page = () => {
                       className="moverspackers-readmore-btn text-[13px] bg-[#ffb118]  mt-4 inline-block text-gray-600 border border-gray-300 px-3 py-2"
                     >
                       Read More{" "}
-                      <i className="fa fa-angle-double-right ml-2"></i>
+                      <FaAngleDoubleRight className="ml-2 inline" />
                     </Link>
                   </div>
                 </div>

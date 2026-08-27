@@ -1,8 +1,38 @@
-import { useEffect } from "react";
+"use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { getSettings } from "@/app/lib/settings";
+
+const DEFAULT_ADDRESS = "Sco No : 487, 1st Floor, Near SBI Bank, Dwarka Sector 26, New Delhi (110077)";
+const DEFAULT_EMAIL = "info@moveitsolution.com";
+const DEFAULT_PHONE = "+91-7056997000";
+const DEFAULT_SOCIAL = {
+  facebook: "https://www.facebook.com/moveitsolution",
+  twitter: "https://twitter.com/moveitsolution",
+  instagram: "https://www.instagram.com/moveitsolution/",
+  linkedin: "https://www.linkedin.com/in/move-it-solution-257846226/",
+  youtube: "https://www.youtube.com/channel/UCeU4KG_f6DU9aivOhDQrLBg",
+};
 
 export default function SidebarModal({ isOpen, onClose }) {
+  const [settings, setSettings] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    getSettings().then((data) => {
+      if (!cancelled && data) setSettings(data);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const address = settings?.address || DEFAULT_ADDRESS;
+  const email = settings?.email || DEFAULT_EMAIL;
+  const phone = settings?.phone || DEFAULT_PHONE;
+  const social = { ...DEFAULT_SOCIAL, ...(settings?.social_links || {}) };
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -39,7 +69,7 @@ export default function SidebarModal({ isOpen, onClose }) {
                height={700}
               src="/Images/logo/logo-mob.webp"
               alt="Move it solution"
-              className="w-96 h-full"
+              className="w-40 sm:w-56 md:w-48 lg:w-96 h-full"
             />
           </Link>
           <button
@@ -102,8 +132,7 @@ export default function SidebarModal({ isOpen, onClose }) {
                   {" "}
                   ADDRESS
                   <span className="mt-2 block leading-[1.8] font-semibold">
-                    Sco No : 487, 1st Floor, Near SBI Bank, Dwarka Sector 26,
-                    New Delhi (110077)
+                    {address}
                   </span>
                 </p>
               </li>
@@ -118,10 +147,10 @@ export default function SidebarModal({ isOpen, onClose }) {
                     </Link>{" "}
                     <br />
                     <Link
-                      href="mailto:info@moveitsolution.com"
+                      href={`mailto:${email}`}
                       className="mt-1.5 block"
                     >
-                      [info@moveitsolution.com]
+                      [{email}]
                     </Link>
                   </span>
                 </div>
@@ -133,7 +162,7 @@ export default function SidebarModal({ isOpen, onClose }) {
                   PHONE
                   <span className="mt-2 block font-semibold">
                     <Link href="tel:+917056497000">+91-7056497000</Link> <br />
-                    <Link href="tel:+917056997000">+91-7056997000</Link>
+                    <Link href={`tel:${phone}`}>{phone}</Link>
                   </span>
                 </div>
               </li>
@@ -147,47 +176,27 @@ export default function SidebarModal({ isOpen, onClose }) {
             </h3>
             <ul className="flex space-x-4 text-[#001469]">
               <li>
-                <a
-                  href="https://twitter.com/moveitsolution"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={social.twitter} target="_blank" rel="noopener noreferrer">
                   <i className="bx bxl-twitter"></i>
                 </a>
               </li>
               <li>
-                <a
-                  href="https://www.facebook.com/moveitsolution"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={social.facebook} target="_blank" rel="noopener noreferrer">
                   <i className="bx bxl-facebook"></i>
                 </a>
               </li>
               <li>
-                <a
-                  href="https://www.instagram.com/moveitsolution/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={social.instagram} target="_blank" rel="noopener noreferrer">
                   <i className="bx bxl-instagram"></i>
                 </a>
               </li>
               <li>
-                <a
-                  href="https://www.linkedin.com/in/move-it-solution-257846226/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={social.linkedin} target="_blank" rel="noopener noreferrer">
                   <i className="bx bxl-linkedin"></i>
                 </a>
               </li>
               <li>
-                <a
-                  href="https://www.youtube.com/channel/UCeU4KG_f6DU9aivOhDQrLBg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={social.youtube} target="_blank" rel="noopener noreferrer">
                   <i className="bx bxl-youtube"></i>
                 </a>
               </li>

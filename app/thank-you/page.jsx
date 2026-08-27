@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { FaCheckCircle, FaHome, FaPhoneAlt, FaWhatsapp, FaTruck, FaBoxOpen, FaStar, FaShieldAlt, FaHeadset } from "react-icons/fa";
+import { FaCheckCircle, FaHome, FaTruck, FaBoxOpen, FaStar, FaShieldAlt, FaHeadset } from "react-icons/fa";
 import { GiCommercialAirplane } from "react-icons/gi";
+import ThankYouContactButtons from "../Components/ThankYouContactButtons";
 
 export const metadata = {
   title: "Thank You | Move It Solution",
@@ -108,23 +109,7 @@ const ThankYouPage = () => {
                   <FaHome />
                   Back to Home
                 </Link>
-                <Link
-                  href="tel:+91-7056997000"
-                  className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-[#24416b] border-2 border-[#24416b] text-sm hover:bg-[#24416b] hover:text-white transition-all hover:shadow-xl"
-                >
-                  <FaPhoneAlt />
-                  Call Us Now
-                </Link>
-                <Link
-                  href="https://wa.me/917056997000"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-white text-sm transition-all hover:shadow-xl hover:scale-[1.03] active:scale-[0.98]"
-                  style={{ background: "linear-gradient(135deg,#25D366,#128C7E)" }}
-                >
-                  <FaWhatsapp className="text-lg" />
-                  WhatsApp Us
-                </Link>
+                <ThankYouContactButtons />
               </div>
             </div>
 
