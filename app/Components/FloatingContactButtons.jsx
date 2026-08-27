@@ -13,7 +13,7 @@ const FloatingContactButtons = ({ phone, whatsappNumber }) => {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="WhatsApp us"
-        className="group flex items-center bg-[#fa4612] text-white rounded-full shadow-lg hover:brightness-110 transition-all duration-300 overflow-hidden"
+        className="group flex items-center bg-[#25D366] text-white rounded-full shadow-lg hover:brightness-110 transition-all duration-300 overflow-hidden"
       >
         <span className="flex items-center justify-center w-14 h-14 shrink-0">
           <FaWhatsapp className="text-2xl" />
@@ -25,7 +25,7 @@ const FloatingContactButtons = ({ phone, whatsappNumber }) => {
       <Link
         href={`tel:${wa}`}
         aria-label="Call us"
-        className="group flex items-center bg-[#2f0202] text-white rounded-full shadow-lg hover:brightness-110 transition-all duration-300 overflow-hidden"
+        className="group flex items-center bg-[#fa4612] text-white rounded-full shadow-lg hover:brightness-110 transition-all duration-300 overflow-hidden"
       >
         <span className="flex items-center justify-center w-14 h-14 shrink-0">
           <FaPhoneAlt className="text-lg" />
