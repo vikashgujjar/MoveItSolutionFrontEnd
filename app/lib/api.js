@@ -57,22 +57,16 @@ export async function apiFetch(path) {
 }
 
 /**
- * Fetches a public API path from a SERVER COMPONENT (or `generateMetadata`)
- * during actual request handling on the running Next.js server — NOT at
- * `next build` time. Deliberately uncached at every level:
- *
- *   - No in-memory cache/dedupe here (unlike apiFetch above) — this module
- *     is loaded once per server process and shared across every visitor's
- *     request, so any cache here would leak stale CMS content to everyone,
- *     for as long as the TTL, until the process restarts.
- *   - `cache: "no-store"` on the underlying fetch also tells Next.js this
- *     route performs dynamic data access, which is what makes Next.js
- *     render the page fresh on every request (SSR) instead of trying to
- *     optimize it into a static shell at build time.
- *
- * Use this for any CMS-driven Server Component — e.g. the blog detail page
- * — so new/edited content is live immediately with no rebuild required.
+ * Fetches a public API path at BUILD TIME (inside `generateStaticParams`,
+ * `generateMetadata`, or a Server Component's own body during `next build`
+ * under `output: "export"`). Deliberately omits `cache: "no-store"` — that
+ * option marks a fetch as "dynamic" to Next.js, which is incompatible with
+ * static export and causes the page to be dropped from the export (or, with
+ * `dynamic = "force-dynamic"` also set, fails the whole build outright with
+ * "couldn't be exported... requires all pages be renderable statically").
+ * Letting `fetch` use its default (static-friendly) caching here is
+ * required, not optional, under this output mode.
  */
-export async function apiFetchServer(path) {
-  return fetchWithRetry(path, { cache: "no-store" });
+export async function apiFetchStatic(path) {
+  return fetchWithRetry(path, undefined);
 }
