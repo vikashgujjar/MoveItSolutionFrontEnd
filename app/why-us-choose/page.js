@@ -1,6 +1,6 @@
 "use client"
 import React from "react";
-import Chooseus from "../Components/chooseus";
+import Chooseus from "../Components/Chooseus";
 import Link from "next/link";
 import WeOffer from "../Components/WeOffer";
 import TeamMember from "../Components/TeamMember";

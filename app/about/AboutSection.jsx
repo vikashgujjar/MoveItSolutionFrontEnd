@@ -5,7 +5,7 @@ import Counter from "../Components/Counter";
 import LogoSlider from "../Components/LogoSlider";
 import Link from "next/link";
 import "boxicons/css/boxicons.min.css";
-import Chooseus from "../Components/chooseus";
+import Chooseus from "../Components/Chooseus";
 import TeamMember from "../Components/TeamMember";
 import PrioritiesSection from "../Components/PrioritiesSection";
 

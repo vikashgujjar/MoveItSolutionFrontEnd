@@ -1,23 +1,18 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import BlogLeft from "@/app/Components/BlogLeft";
 import BlogPostContent from "@/app/Components/BlogPostContent";
-import { getBlogPostsStatic, getBlogPostStatic } from "@/app/lib/blogPosts";
+import { getBlogPostServer } from "@/app/lib/blogPosts";
 
-export async function generateStaticParams() {
-  const posts = await getBlogPostsStatic();
-  // `output: "export"` fails the ENTIRE site build if a dynamic route's
-  // generateStaticParams() resolves to an empty array (e.g. zero posts
-  // published yet, or the API being briefly unreachable at build time) — so
-  // this must always return at least one param. The placeholder slug simply
-  // renders the existing "post could not be found" fallback below.
-  if (!Array.isArray(posts) || posts.length === 0) {
-    return [{ slug: "_placeholder" }];
-  }
-  return posts.map((post) => ({ slug: post.slug }));
-}
+// This route is entirely CMS-driven — a post can be created, edited, or
+// deleted from the admin panel at any time, so it must never be pre-built
+// or cached across requests. `getBlogPostServer` uses `cache: "no-store"`,
+// which is what actually makes Next.js render this route fresh per request;
+// this export just makes that intent explicit and future-proof.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
-  const post = await getBlogPostStatic(params.slug);
+  const post = await getBlogPostServer(params.slug);
   if (!post) {
     return { title: "Blog | Move It Solution" };
   }
@@ -28,7 +23,11 @@ export async function generateMetadata({ params }) {
 }
 
 const BlogPostPage = async ({ params }) => {
-  const post = await getBlogPostStatic(params.slug);
+  const post = await getBlogPostServer(params.slug);
+
+  if (!post) {
+    notFound();
+  }
 
   return (
     <>
@@ -39,9 +38,7 @@ const BlogPostPage = async ({ params }) => {
               <Link href="/" className="">
                 Home
               </Link>
-              <li className="text-[#fa4612] text-nowrap">
-                {post?.title || "Blog Post"}
-              </li>
+              <li className="text-[#fa4612] text-nowrap">{post.title}</li>
             </div>
           </div>
         </div>
@@ -49,11 +46,7 @@ const BlogPostPage = async ({ params }) => {
 
       <div className="block lg:flex mx-0 lg:mx-28 my-20">
         <div className="blog-details-desc w-full lg:w-2/3 px-3">
-          {post ? (
-            <BlogPostContent slug={params.slug} initialPost={post} />
-          ) : (
-            <p className="text-gray-500">This post could not be found.</p>
-          )}
+          <BlogPostContent post={post} />
         </div>
         <div className="widget-area widget-area-left w-full lg:w-1/3 px-3 mt-10 lg:mt-0">
           <BlogLeft />

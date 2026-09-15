@@ -11,20 +11,39 @@ async function fetchOnce(path, fetchOptions) {
   return json.data ?? null;
 }
 
-async function fetchWithRetry(path, cache, fetchOptions) {
-  const cached = cache.get(path);
+async function fetchWithRetry(path, fetchOptions) {
+  let result = await fetchOnce(path, fetchOptions).catch(() => null);
+  if (result === null) {
+    // one retry on failure
+    result = await fetchOnce(path, fetchOptions).catch(() => null);
+  }
+  return result;
+}
+
+/**
+ * Fetches a public API path from the BROWSER. Never throws — callers get
+ * `null` on any failure so they can fall back to their hardcoded defaults.
+ * Successful responses are cached briefly in memory so several components
+ * requesting the same path at once (or in quick succession) only hit the
+ * network once; failures are never cached, so a temporarily-down API is
+ * retried on the next call instead of getting stuck for the rest of the
+ * browsing session.
+ *
+ * This cache lives in the browser tab's own JS heap — it has no bearing on
+ * what any other visitor sees, and a full page reload clears it. A 30s TTL
+ * is short enough that CMS edits are visible on the next natural reload
+ * without meaningfully increasing network traffic.
+ */
+export async function apiFetch(path) {
+  const cached = successCache.get(path);
   if (cached && cached.expiresAt > Date.now()) return cached.value;
 
   if (inFlight.has(path)) return inFlight.get(path);
 
   const promise = (async () => {
-    let result = await fetchOnce(path, fetchOptions).catch(() => null);
-    if (result === null) {
-      // one retry on failure
-      result = await fetchOnce(path, fetchOptions).catch(() => null);
-    }
+    const result = await fetchWithRetry(path, { cache: "no-store" });
     if (result !== null) {
-      cache.set(path, { value: result, expiresAt: Date.now() + CACHE_TTL_MS });
+      successCache.set(path, { value: result, expiresAt: Date.now() + CACHE_TTL_MS });
     }
     return result;
   })();
@@ -38,31 +57,22 @@ async function fetchWithRetry(path, cache, fetchOptions) {
 }
 
 /**
- * Fetches a public API path from the BROWSER. Never throws — callers get
- * `null` on any failure so they can fall back to their hardcoded defaults.
- * Successful responses are cached briefly so several components requesting
- * the same path at once (or in quick succession) only hit the network once;
- * failures are never cached, so a temporarily-down API is retried on the next
- * call instead of getting stuck for the rest of the browsing session.
+ * Fetches a public API path from a SERVER COMPONENT (or `generateMetadata`)
+ * during actual request handling on the running Next.js server — NOT at
+ * `next build` time. Deliberately uncached at every level:
  *
- * Uses `cache: "no-store"` since this always runs client-side post-hydration
- * — always wants the freshest data, never Next's build-time fetch cache.
+ *   - No in-memory cache/dedupe here (unlike apiFetch above) — this module
+ *     is loaded once per server process and shared across every visitor's
+ *     request, so any cache here would leak stale CMS content to everyone,
+ *     for as long as the TTL, until the process restarts.
+ *   - `cache: "no-store"` on the underlying fetch also tells Next.js this
+ *     route performs dynamic data access, which is what makes Next.js
+ *     render the page fresh on every request (SSR) instead of trying to
+ *     optimize it into a static shell at build time.
+ *
+ * Use this for any CMS-driven Server Component — e.g. the blog detail page
+ * — so new/edited content is live immediately with no rebuild required.
  */
-export async function apiFetch(path) {
-  return fetchWithRetry(path, successCache, { cache: "no-store" });
-}
-
-const staticCache = new Map();
-
-/**
- * Fetches a public API path at BUILD TIME (inside `generateStaticParams`,
- * `generateMetadata`, or a Server Component's own body during `next build`
- * under `output: "export"`). Deliberately omits `cache: "no-store"` — that
- * option marks a fetch as "dynamic" to Next.js, which is incompatible with
- * static export and causes the page to be silently dropped from the export
- * with no visible error. Letting `fetch` use its default (static-friendly)
- * caching here is required, not optional.
- */
-export async function apiFetchStatic(path) {
-  return fetchWithRetry(path, staticCache, undefined);
+export async function apiFetchServer(path) {
+  return fetchWithRetry(path, { cache: "no-store" });
 }

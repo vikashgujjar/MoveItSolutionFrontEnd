@@ -1,7 +1,4 @@
-"use client";
-import { useEffect, useState } from "react";
 import Image from "next/image";
-import { getBlogPost } from "@/app/lib/blogPosts";
 
 function formatDate(value) {
   if (!value) return "";
@@ -10,21 +7,11 @@ function formatDate(value) {
   return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 }
 
-const BlogPostContent = ({ slug, initialPost }) => {
-  const [post, setPost] = useState(initialPost);
-
-  useEffect(() => {
-    let cancelled = false;
-    getBlogPost(slug).then((data) => {
-      if (!cancelled && data) setPost(data);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [slug]);
-
-  if (!post) return null;
-
+// Plain presentational component — `post` is already fresh on every request
+// (the parent Server Component fetches it with `cache: "no-store"` on each
+// page load), so there's no need for this to be a client component or to
+// re-fetch anything itself.
+const BlogPostContent = ({ post }) => {
   return (
     <div className="blog-details-desc">
       {post.featured_image && (
