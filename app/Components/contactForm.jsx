@@ -6,6 +6,7 @@ import { FaLock } from "react-icons/fa";
 import Link from "next/link";
 import Swal from 'sweetalert2';
 import { getFormSettings } from "@/app/lib/formSettings";
+import { sendLeadNotification } from "./useOtpFlow";
 
 const ContactForm = ({ pageType }) => {
   const [phone, setPhone] = useState("+91");
@@ -40,26 +41,21 @@ const ContactForm = ({ pageType }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
-    const urlEncodedData = new URLSearchParams();
-
-    for (const [key, value] of Object.entries(formData)) {
-      urlEncodedData.append(key, value);
-    }
+    setIsLoading(true);
 
     try {
-      const response = await fetch(
-        "https://sendingmail-6znv.onrender.com/sendmail",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: urlEncodedData.toString(),
-        }
-      );
+      const ok = await sendLeadNotification({
+        name: formData.S_name,
+        phone: formData.S_phone,
+        email: formData.S_email,
+        service: formData.S_services,
+        message: formData.message,
+        sendTo: formData.userEmailsir,
+      });
 
-      if (response.ok) {
+      setIsLoading(false);
+
+      if (ok) {
         Swal.fire({
           title: "Success!",
           text: "Form submitted successfully!",
@@ -84,6 +80,7 @@ const ContactForm = ({ pageType }) => {
         });
       }
     } catch (error) {
+      setIsLoading(false);
       console.error("Network error:", error);
       Swal.fire({
         title: "Error!",

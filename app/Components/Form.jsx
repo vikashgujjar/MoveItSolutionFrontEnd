@@ -1,16 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { getFormSettings } from "@/app/lib/formSettings";
 import { pathnameToSlug } from "@/app/lib/pageSlug";
 import { FaTruck } from "react-icons/fa";
 import { GiCommercialAirplane } from "react-icons/gi";
 import TrackingNumberArea from "./Tracking";
-import OTPModal from "./Otp";
+import useOtpFlow from "./useOtpFlow";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
-import axios from "axios";
-import Swal from "sweetalert2";
 import Image from "next/image";
 import { useRef } from "react";
 
@@ -24,7 +22,6 @@ const FROM = ({ head }) => {
 }
 
 const Form = ({ showOnlyLocal = false, notifyEmail }) => {
-  const router = useRouter();
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState(showOnlyLocal ? "local" : "international");
   const [isOpen, setIsOpen] = useState(null);
@@ -66,13 +63,8 @@ const Form = ({ showOnlyLocal = false, notifyEmail }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, notifyEmail]);
 
-  const [otpVerified, setOtpVerified] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const otpFlow = useOtpFlow();
   const [otp, setOtp] = useState(new Array(6).fill(""));
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [isSending, setIsSending] = useState(false);
-  const [isVerifying, setIsVerifying] = useState(false);
   const [isResending, setIsResending] = useState(false);
 
   const [loading, setLoading] = useState(false)
@@ -108,8 +100,6 @@ const Form = ({ showOnlyLocal = false, notifyEmail }) => {
     console.log(formData, "this is cl type");
   };
 
-  const [otpPopup, setOtpPopup] = useState(false)
-    ;
   const selectOption = (option) => {
     setSelectedOption(option.label);
     setIsOpen(false);
@@ -128,6 +118,7 @@ const Form = ({ showOnlyLocal = false, notifyEmail }) => {
     const newOtp = [...otp];
     newOtp[index] = element.value;
     setOtp(newOtp);
+    otpFlow.setOtp(newOtp.join(""));
 
     if (element.value && index < 5) {
       element.nextSibling?.focus();
@@ -220,107 +211,56 @@ const Form = ({ showOnlyLocal = false, notifyEmail }) => {
 
   const resendOtp = async () => {
     setIsResending(true);
-    setErrorMessage("");
-    setSuccessMessage("");
-
-    try {
-      const response = await axios.post(
-        "c",
-        { phone: number }
-      );
-
-      if (response.data.success) {
-        setSuccessMessage("OTP has been resent successfully!");
-        // SweetAlert for resend success
-        Swal.fire({
-          icon: "success",
-          title: "OTP Resent",
-          text: "A new OTP has been sent to your phone number.",
-        });
-      } else {
-        setErrorMessage(
-          response.data.message || "Failed to resend OTP. Please try again."
-        );
-      }
-    } catch (error) {
-      setErrorMessage(
-        error.response?.data?.message ||
-        "Failed to resend OTP. Please check your network and try again."
-      );
-    } finally {
-      setIsResending(false); // Re-enable the Resend button
-    }
+    await otpFlow.resendOtp(phone);
+    setIsResending(false);
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     setLoading(true);
-    try {
-      const otpResponse = await axios.post(
-        "https://otp-verify-service.onrender.com/send-otp",
-        { phone: `${phone}` }
-      );
+    const sent = await otpFlow.sendOtp(phone);
+    setLoading(false);
 
-      if (!otpResponse.data.success) {
-        Swal.fire({
-          icon: "error",
-          title: "Failed to Send OTP",
-          text: "Unable to send OTP. Please try again.",
-        });
-        setLoading(false);
-        return;
-      }
-
+    if (sent) {
       setFormData({ ...formData, S_phone: phone });
-      setLoading(false);
-
-      // Swal.fire({
-      //   icon: "success",
-      //   title: "OTP Sent",
-      //   text: "An OTP has been sent to your phone number.",
-      // });
-
-      setOtpPopup(true);
-    } catch (error) {
-      console.error("Error sending OTP:", error);
-      setLoading(false);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Failed to send OTP. Please try again later.",
-      });
     }
   };
 
+  // The secondary notification email (sendLeadNotification) only carries a
+  // single free-text `message` field, so every location/country/schedule
+  // detail that used to be its own payload key gets folded into one summary
+  // line here — the full structured object still goes to the OTP-verify
+  // endpoint as `formdata` unchanged below.
+  const buildMessageSummary = () => {
+    const details = [
+      formData.message,
+      formData.Location_form && `From City: ${formData.Location_form}`,
+      formData.Location_form_state && `From State: ${formData.Location_form_state}`,
+      formData.Location_to && `To City: ${formData.Location_to}`,
+      formData.Location_to_state && `To State: ${formData.Location_to_state}`,
+      formData.moving_from_country && `Moving From Country: ${formData.moving_from_country}`,
+      formData.moving_form_state && `Moving From State: ${formData.moving_form_state}`,
+      formData.moving_to_country && `Moving To Country: ${formData.moving_to_country}`,
+      formData.moving_to_state && `Moving To State: ${formData.moving_to_state}`,
+      localDomestic.DeliveryType && `Delivery Type: ${localDomestic.DeliveryType}`,
+      localDomestic.DeliveryMethod && `Service: ${localDomestic.DeliveryMethod}`,
+      localDomestic.TentativeSchedule && `Schedule: ${localDomestic.TentativeSchedule}`,
+    ].filter(Boolean);
+    return details.join(" | ");
+  };
+
   const verifyAndSubmit = async () => {
-    const otpAsString = otp.join("");
-
-    try {
-      const verifyResponse = await axios.post(
-        "https://otp-verify-service.onrender.com/verify-otp",
-        { phone: `${phone}`, code: otpAsString }
-      );
-
-      if (!verifyResponse.data.success) {
-        Swal.fire({
-          icon: "error",
-          title: "Invalid OTP",
-          text: "The OTP you entered is incorrect. Please try again.",
-        });
-        return;
-      }
-
-      setOtpPopup(false);
-
-      const payload = {
+    await otpFlow.verifyOtp({
+      phone,
+      subject: "New Enquiry - Move It Solution",
+      formData: {
         company: "Move It Solution",
         company_name: "Move It Solution",
         name: formData.S_name,
         phone: formData.S_phone,
         email: formData.S_email,
-        serviceType: formData.service_type || formData.DeliveryMethod || formData.DeliveryType,
+        serviceType: formData.service_type || localDomestic.DeliveryMethod || localDomestic.DeliveryType,
         message: formData.message,
         "Moving From City": formData.Location_form,
         "Moving From State": formData.Location_form_state,
@@ -330,35 +270,20 @@ const Form = ({ showOnlyLocal = false, notifyEmail }) => {
         "Moving From State (Intl)": formData.moving_form_state,
         "Moving To Country": formData.moving_to_country,
         "Moving To State (Intl)": formData.moving_to_state,
-        "Delivery Type": formData.DeliveryType,
-        "Service Type": formData.DeliveryMethod,
-        "Schedule": formData.TentativeSchedule,
+        "Delivery Type": localDomestic.DeliveryType,
+        "Service Type": localDomestic.DeliveryMethod,
+        "Schedule": localDomestic.TentativeSchedule,
         mail_to: formData.userEmailsir,
-      };
-
-      const submitResponse = await fetch(
-        "https://mail.futuretouch.org/api/send-message",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        }
-      );
-
-      if (!submitResponse.ok) {
-        throw new Error(`Mail service error: ${submitResponse.status}`);
-      }
-
-      setOtpPopup(false);
-      router.push("/thank-you");
-    } catch (error) {
-      console.error("Error in verifyAndSubmit:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Submission Failed",
-        text: "Something went wrong. Please try again later.",
-      });
-    }
+      },
+      lead: {
+        name: formData.S_name,
+        email: formData.S_email,
+        service: formData.service_type || localDomestic.DeliveryMethod || localDomestic.DeliveryType,
+        message: buildMessageSummary(),
+      },
+      sendTo: formData.userEmailsir,
+      redirectTo: "/thank-you",
+    });
   };
 
   const inputCls = "w-full h-[38px] px-3 text-[13px] text-[#24416b] bg-white border-2 border-[#e8edf5] rounded-lg focus:border-[#fa4612] focus:outline-none transition-colors duration-200 placeholder:text-gray-400";
@@ -606,14 +531,14 @@ const Form = ({ showOnlyLocal = false, notifyEmail }) => {
               </div>
 
               {/* OTP Modal */}
-              {otpPopup && (
+              {otpFlow.showOTP && (
                 <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
                   <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm mx-auto overflow-hidden">
 
                     {/* Header */}
                     <div className="relative px-6 pt-8 pb-5 text-center" style={{ background: "linear-gradient(135deg,#24416b,#1a2f50)" }}>
                       <button
-                        onClick={() => setOtpPopup(false)}
+                        onClick={() => otpFlow.setShowOTP(false)}
                         className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 text-white text-xs transition-all"
                       >✕</button>
 
@@ -653,11 +578,11 @@ const Form = ({ showOnlyLocal = false, notifyEmail }) => {
                       {/* Verify Button */}
                       <button
                         onClick={verifyAndSubmit}
-                        disabled={isVerifying}
+                        disabled={otpFlow.loading}
                         className="w-full py-3 rounded-xl font-bold text-white text-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg hover:scale-[1.01]"
                         style={{ background: "linear-gradient(135deg,#fa4612,#c73000)" }}
                       >
-                        {isVerifying ? (
+                        {otpFlow.loading ? (
                           <span className="flex items-center justify-center gap-2">
                             <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
                               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
