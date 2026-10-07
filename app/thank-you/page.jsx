@@ -2,6 +2,7 @@ import Link from "next/link";
 import { FaCheckCircle, FaHome, FaTruck, FaBoxOpen, FaStar, FaShieldAlt, FaHeadset } from "react-icons/fa";
 import { GiCommercialAirplane } from "react-icons/gi";
 import ThankYouContactButtons from "../Components/ThankYouContactButtons";
+import EnhancedConversionDataLayer from "../Components/EnhancedConversionDataLayer";
 
 export const metadata = {
   title: "Thank You | Move It Solution",
@@ -18,6 +19,7 @@ const stats = [
 const ThankYouPage = () => {
   return (
     <>
+      <EnhancedConversionDataLayer />
       {/* Banner */}
       <div className="bg-gray-100 banner h-full pt-28 pb-10">
         <div className="px-10 lg:px-28 w-full h-full">

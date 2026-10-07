@@ -71,8 +71,6 @@ const Form = ({ showOnlyLocal = false, notifyEmail }) => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    console.log('qefrwfrwfdre', formData)
   };
 
   const options = [
@@ -97,7 +95,6 @@ const Form = ({ showOnlyLocal = false, notifyEmail }) => {
   const toggleDropdown = (dropdownType) => {
     setIsOpen(isOpen == dropdownType ? null : dropdownType);
     setFormData({ ...formData, service_type: dropdownType })
-    console.log(formData, "this is cl type");
   };
 
   const selectOption = (option) => {

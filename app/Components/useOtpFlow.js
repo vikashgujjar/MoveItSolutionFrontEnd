@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { swalFire } from "./swal";
+import { stashConversionData } from "@/app/lib/enhancedConversions";
 
 const OTP_API = process.env.NEXT_PUBLIC_OTP_API_URL || "https://enquiry.futuretouch.org/api";
 const MAIL_API = process.env.NEXT_PUBLIC_MAIL_API_URL || "https://mail.futuretouch.org/api";
@@ -107,7 +108,10 @@ export default function useOtpFlow() {
       setShowOTP(false);
       setOtp("");
       onSuccess?.();
-      if (redirectTo) window.location.href = redirectTo;
+      if (redirectTo) {
+        stashConversionData({ email: lead?.email, phone });
+        window.location.href = redirectTo;
+      }
     } catch (error) {
       swalFire({
         icon: "error",
